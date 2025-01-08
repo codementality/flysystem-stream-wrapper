@@ -1,25 +1,32 @@
 {
-    "name": "twistor/flysystem-stream-wrapper",
+    "name": "lhridley/flysystem-stream-wrapper",
     "type": "library",
-    "description": "Adapts Flysystem filesystems to PHP stream wrappers.",
+    "description": "Adapts Flysystem filesystems to PHP stream wrappers. (fork)",
     "license": "MIT",
-    "homepage": "http://github.com/twistor/flysystem-stream-wrapper",
+    "homepage": "http://github.com/lhridley/flysystem-stream-wrapper",
     "authors": [
         {
             "name": "Chris Leppanen",
             "email": "chris.leppanen@gmail.com"
+        },
+        {
+            "name": "Lisa Ridley",
+            "email": "lisa@codementality.com"
         }
     ],
     "require": {
         "league/flysystem": "^1.0.9",
-        "twistor/stream-util": "~1.0"
+        "lhridley/stream-util": "1.0.1"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.8"
     },
+    "replace": {
+        "twistor/flysystem-stream-wrapper":"1.0.9"
+    },    
     "autoload": {
         "psr-4": {
             "Twistor\\": "src/"
         }
     }
-}
+}I
