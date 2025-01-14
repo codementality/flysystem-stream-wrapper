@@ -1,11 +1,11 @@
 <?php
 
-namespace Twistor\Flysystem\Plugin;
+namespace Lhridley\Flysystem\Plugin;
 
 use League\Flysystem\AdapterInterface;
-use Twistor\FlysystemStreamWrapper;
-use Twistor\PosixUid;
-use Twistor\Uid;
+use Lhridley\FlysystemStreamWrapper;
+use Lhridley\PosixUid;
+use Lhridley\Uid;
 
 class Stat extends AbstractPlugin
 {
@@ -45,7 +45,7 @@ class Stat extends AbstractPlugin
     protected $required;
 
     /**
-     * @var \Twistor\Uid
+     * @var \Lhridley\Uid
      */
     protected $uid;
 

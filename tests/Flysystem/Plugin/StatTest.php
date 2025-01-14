@@ -1,7 +1,7 @@
 <?php
 
 use League\Flysystem\Filesystem;
-use Twistor\Flysystem\Plugin\Stat;
+use Lhridley\Flysystem\Plugin\Stat;
 
 class StatTest extends \PHPUnit_Framework_TestCase
 {

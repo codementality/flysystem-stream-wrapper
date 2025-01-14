@@ -2,8 +2,8 @@
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use Twistor\FlysystemStreamWrapper;
-use Twistor\Tests\WritableLocal;
+use Lhridley\FlysystemStreamWrapper;
+use Lhridley\Tests\WritableLocal;
 
 class WritableOptimzedTest extends StreamOperationTest
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Twistor\Flysystem\Plugin;
+namespace Lhridley\Flysystem\Plugin;
 
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Util;

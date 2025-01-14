@@ -1,6 +1,6 @@
 <?php
 
-namespace Twistor\tests;
+namespace Lhridley\tests;
 
 use League\Flysystem\Adapter\Local;
 

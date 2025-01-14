@@ -2,7 +2,7 @@
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Filesystem;
-use Twistor\Flysystem\Plugin\ForcedRename;
+use Lhridley\Flysystem\Plugin\ForcedRename;
 
 class ForcedRenameTest extends \PHPUnit_Framework_TestCase
 {

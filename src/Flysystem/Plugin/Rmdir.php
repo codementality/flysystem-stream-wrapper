@@ -1,10 +1,10 @@
 <?php
 
-namespace Twistor\Flysystem\Plugin;
+namespace Lhridley\Flysystem\Plugin;
 
 use League\Flysystem\RootViolationException;
 use League\Flysystem\Util;
-use Twistor\Flysystem\Exception\DirectoryNotEmptyException;
+use Lhridley\Flysystem\Exception\DirectoryNotEmptyException;
 
 class Rmdir extends AbstractPlugin
 {
@@ -24,7 +24,7 @@ class Rmdir extends AbstractPlugin
      *
      * @return bool
      *
-     * @throws \Twistor\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Lhridley\Flysystem\Exception\DirectoryNotEmptyException
      */
     public function handle($dirname, $options)
     {

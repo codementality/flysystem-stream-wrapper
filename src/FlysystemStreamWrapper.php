@@ -1,17 +1,17 @@
 <?php
 
-namespace Twistor;
+namespace Lhridley;
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Util;
-use Twistor\Flysystem\Exception\TriggerErrorException;
-use Twistor\Flysystem\Plugin\ForcedRename;
-use Twistor\Flysystem\Plugin\Mkdir;
-use Twistor\Flysystem\Plugin\Rmdir;
-use Twistor\Flysystem\Plugin\Stat;
-use Twistor\Flysystem\Plugin\Touch;
+use Lhridley\Flysystem\Exception\TriggerErrorException;
+use Lhridley\Flysystem\Plugin\ForcedRename;
+use Lhridley\Flysystem\Plugin\Mkdir;
+use Lhridley\Flysystem\Plugin\Rmdir;
+use Lhridley\Flysystem\Plugin\Stat;
+use Lhridley\Flysystem\Plugin\Touch;
 
 /**
  * An adapter for Flysystem to a PHP stream wrapper.

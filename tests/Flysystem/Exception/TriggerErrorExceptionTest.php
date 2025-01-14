@@ -1,6 +1,6 @@
 <?php
 
-use Twistor\Flysystem\Exception\DirectoryExistsException;
+use Lhridley\Flysystem\Exception\DirectoryExistsException;
 
 class TriggerErrorExceptionTest extends \PHPUnit_Framework_TestCase
 {

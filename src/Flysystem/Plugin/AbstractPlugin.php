@@ -1,6 +1,6 @@
 <?php
 
-namespace Twistor\Flysystem\Plugin;
+namespace Lhridley\Flysystem\Plugin;
 
 use League\Flysystem\Config;
 use League\Flysystem\Plugin\AbstractPlugin as FlysystemPlugin;

@@ -2,7 +2,7 @@
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Filesystem;
-use Twistor\Flysystem\Plugin\Rmdir;
+use Lhridley\Flysystem\Plugin\Rmdir;
 
 class RmdirTest extends \PHPUnit_Framework_TestCase
 {

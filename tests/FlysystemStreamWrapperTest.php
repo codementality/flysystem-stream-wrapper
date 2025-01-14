@@ -3,8 +3,8 @@
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
-use Twistor\FlysystemStreamWrapper;
-use Twistor\Tests\NoVisibilityLocal;
+use Lhridley\FlysystemStreamWrapper;
+use Lhridley\Tests\NoVisibilityLocal;
 
 class FlysystemStreamWrapperTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Twistor\Flysystem\Plugin;
+namespace Lhridley\Flysystem\Plugin;
 
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Util;
-use Twistor\Flysystem\Exception\DirectoryExistsException;
-use Twistor\Flysystem\Exception\DirectoryNotEmptyException;
-use Twistor\Flysystem\Exception\NotADirectoryException;
+use Lhridley\Flysystem\Exception\DirectoryExistsException;
+use Lhridley\Flysystem\Exception\DirectoryNotEmptyException;
+use Lhridley\Flysystem\Exception\NotADirectoryException;
 
 class ForcedRename extends AbstractPlugin
 {
@@ -27,9 +27,9 @@ class ForcedRename extends AbstractPlugin
      * @return bool
      *
      * @throws \League\Flysystem\FileNotFoundException
-     * @throws \Twistor\Flysystem\Exception\DirectoryExistsException
-     * @throws \Twistor\Flysystem\Exception\DirectoryNotEmptyException
-     * @throws \Twistor\Flysystem\Exception\NotADirectoryException
+     * @throws \Lhridley\Flysystem\Exception\DirectoryExistsException
+     * @throws \Lhridley\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Lhridley\Flysystem\Exception\NotADirectoryException
      */
     public function handle($path, $newpath)
     {
@@ -58,9 +58,9 @@ class ForcedRename extends AbstractPlugin
      * @return bool
      *
      * @throws \League\Flysystem\FileNotFoundException
-     * @throws \Twistor\Flysystem\Exception\DirectoryExistsException
-     * @throws \Twistor\Flysystem\Exception\DirectoryNotEmptyException
-     * @throws \Twistor\Flysystem\Exception\NotADirectoryException
+     * @throws \Lhridley\Flysystem\Exception\DirectoryExistsException
+     * @throws \Lhridley\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Lhridley\Flysystem\Exception\NotADirectoryException
      */
     protected function isValidRename($source, $dest)
     {
@@ -91,9 +91,9 @@ class ForcedRename extends AbstractPlugin
      *
      * @return bool
      *
-     * @throws \Twistor\Flysystem\Exception\DirectoryExistsException
-     * @throws \Twistor\Flysystem\Exception\DirectoryNotEmptyException
-     * @throws \Twistor\Flysystem\Exception\NotADirectoryException
+     * @throws \Lhridley\Flysystem\Exception\DirectoryExistsException
+     * @throws \Lhridley\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Lhridley\Flysystem\Exception\NotADirectoryException
      */
     protected function compareTypes($source, $dest)
     {

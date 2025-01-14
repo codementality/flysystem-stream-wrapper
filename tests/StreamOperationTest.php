@@ -4,8 +4,8 @@ use League\Flysystem\Adapter\Local;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
 use Prophecy\Argument;
-use Twistor\Flysystem\Plugin\Stat;
-use Twistor\FlysystemStreamWrapper;
+use Lhridley\Flysystem\Plugin\Stat;
+use Lhridley\FlysystemStreamWrapper;
 
 class StreamOperationTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-use Twistor\Uid;
+use Lhridley\Uid;
 
 class UidTest extends \PHPUnit_Framework_TestCase
 {

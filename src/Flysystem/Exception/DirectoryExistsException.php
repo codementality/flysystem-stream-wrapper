@@ -1,6 +1,6 @@
 <?php
 
-namespace Twistor\Flysystem\Exception;
+namespace Lhridley\Flysystem\Exception;
 
 class DirectoryExistsException extends TriggerErrorException
 {
