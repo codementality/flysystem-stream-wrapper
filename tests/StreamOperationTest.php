@@ -7,8 +7,11 @@ use Prophecy\Argument;
 use Lhridley\Flysystem\Plugin\Stat;
 use Lhridley\FlysystemStreamWrapper;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class StreamOperationTest extends TestCase {
+
+    use ProphecyTrait;
 
     protected $testDir;
 
@@ -25,7 +28,7 @@ class StreamOperationTest extends TestCase {
         ],
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -40,7 +43,7 @@ class StreamOperationTest extends TestCase {
         FlysystemStreamWrapper::register('flysystem', $this->filesystem);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 

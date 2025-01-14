@@ -63,7 +63,7 @@ class FlysystemStreamWrapperTest extends TestCase {
         $this->assertFalse(in_array('test2', stream_get_wrappers(), true));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         FlysystemStreamWrapper::unregisterAll();
     }

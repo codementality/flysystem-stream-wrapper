@@ -36,14 +36,15 @@
         "lhridley/stream-util": "dev-main"
     },
     "require-dev": {
-        "phpunit/phpunit": "^11.5.3"
+        "phpunit/phpunit": "^11.5.3",
+        "phpspec/prophecy-phpunit": "^2.3"
     },
     "replace": {
         "twistor/flysystem-stream-wrapper":"^1.0"
     },    
     "autoload": {
         "psr-4": {
-            "Lhridley\\": "src/"
+            "Lhridley\\": ["src/", "vendor/lhridley/stream-util/src/"]
         }
     }
 }

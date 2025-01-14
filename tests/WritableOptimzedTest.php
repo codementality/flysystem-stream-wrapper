@@ -7,7 +7,7 @@ use Lhridley\Tests\WritableLocal;
 
 class WritableOptimzedTest extends StreamOperationTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->testDir = __DIR__ . '/testdir';
 

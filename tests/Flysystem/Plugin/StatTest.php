@@ -3,8 +3,12 @@
 use League\Flysystem\Filesystem;
 use Lhridley\Flysystem\Plugin\Stat;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class StatTest extends TestCase {
+
+    use ProphecyTrait;
+
     public function test()
     {
         $permissions = [

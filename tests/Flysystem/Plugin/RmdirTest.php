@@ -4,8 +4,12 @@ use League\Flysystem\AdapterInterface;
 use League\Flysystem\Filesystem;
 use Lhridley\Flysystem\Plugin\Rmdir;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class RmdirTest extends TestCase {
+
+    use ProphecyTrait;
+
     public function test()
     {
         $plugin = new Rmdir();
