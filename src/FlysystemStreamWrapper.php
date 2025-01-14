@@ -12,6 +12,7 @@ use Lhridley\Flysystem\Plugin\Mkdir;
 use Lhridley\Flysystem\Plugin\Rmdir;
 use Lhridley\Flysystem\Plugin\Stat;
 use Lhridley\Flysystem\Plugin\Touch;
+use Lhridley\StreamUtil;
 
 /**
  * An adapter for Flysystem to a PHP stream wrapper.
