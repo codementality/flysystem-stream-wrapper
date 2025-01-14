@@ -3,9 +3,9 @@
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Filesystem;
 use Lhridley\Flysystem\Plugin\ForcedRename;
+use PHPUnit\Framework\TestCase;
 
-class ForcedRenameTest extends \PHPUnit_Framework_TestCase
-{
+class ForcedRenameTest extends TestCase {
     public function test()
     {
         $plugin = new ForcedRename();

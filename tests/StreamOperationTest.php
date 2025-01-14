@@ -6,9 +6,10 @@ use League\Flysystem\Filesystem;
 use Prophecy\Argument;
 use Lhridley\Flysystem\Plugin\Stat;
 use Lhridley\FlysystemStreamWrapper;
+use PHPUnit\Framework\TestCase;
 
-class StreamOperationTest extends \PHPUnit_Framework_TestCase
-{
+class StreamOperationTest extends TestCase {
+
     protected $testDir;
 
     protected $filesystem;

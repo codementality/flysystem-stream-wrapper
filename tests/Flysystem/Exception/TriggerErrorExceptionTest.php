@@ -1,9 +1,9 @@
 <?php
 
 use Lhridley\Flysystem\Exception\DirectoryExistsException;
+use PHPUnit\Framework\TestCase;
 
-class TriggerErrorExceptionTest extends \PHPUnit_Framework_TestCase
-{
+class TriggerErrorExceptionTest extends TestCase {
     public function testFormat()
     {
         $e = new DirectoryExistsException();

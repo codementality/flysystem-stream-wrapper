@@ -5,9 +5,9 @@ use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
 use Lhridley\FlysystemStreamWrapper;
 use Lhridley\Tests\NoVisibilityLocal;
+use PHPUnit\Framework\TestCase;
 
-class FlysystemStreamWrapperTest extends \PHPUnit_Framework_TestCase
-{
+class FlysystemStreamWrapperTest extends TestCase {
     public function testRegister()
     {
         $filesystem = new Filesystem(new NullAdapter());

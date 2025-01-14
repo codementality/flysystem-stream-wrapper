@@ -3,9 +3,9 @@
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Filesystem;
 use Lhridley\Flysystem\Plugin\Rmdir;
+use PHPUnit\Framework\TestCase;
 
-class RmdirTest extends \PHPUnit_Framework_TestCase
-{
+class RmdirTest extends TestCase {
     public function test()
     {
         $plugin = new Rmdir();

@@ -2,9 +2,9 @@
 
 use League\Flysystem\Filesystem;
 use Lhridley\Flysystem\Plugin\Stat;
+use PHPUnit\Framework\TestCase;
 
-class StatTest extends \PHPUnit_Framework_TestCase
-{
+class StatTest extends TestCase {
     public function test()
     {
         $permissions = [

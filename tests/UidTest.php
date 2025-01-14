@@ -1,9 +1,9 @@
 <?php
 
 use Lhridley\Uid;
+use PHPUnit\Framework\TestCase;
 
-class UidTest extends \PHPUnit_Framework_TestCase
-{
+class UidTest extends TestCase {
     public function test()
     {
         $uid = new Uid();
