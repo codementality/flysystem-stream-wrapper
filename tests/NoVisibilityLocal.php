@@ -1,7 +1,5 @@
 <?php
 
-namespace Lhridley\tests;
-
 use League\Flysystem\Adapter\Local;
 
 /**

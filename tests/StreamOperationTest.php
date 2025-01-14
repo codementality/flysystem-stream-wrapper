@@ -441,7 +441,7 @@ class StreamOperationTest extends TestCase {
 
         // Returns false.
         $this->assertFalse(@fopen('flysystem://new_file.txt', 'x+'));
-        $this->assertWarning('failed to open stream');
+        $this->assertWarning('Failed to open stream');
     }
 
     public function testFailedOpen()
@@ -464,7 +464,8 @@ class StreamOperationTest extends TestCase {
 
     public function testWritable()
     {
-        file_put_contents('flysystem://tmp.txt', 'content');
+        $this->assertNotFalse($this->putContent('tmp.txt', 'content'));
+        $this->assertTrue(file_exists('flysystem://tmp.txt'));
         $this->assertTrue(is_writable('flysystem://tmp.txt'));
     }
 
@@ -506,7 +507,7 @@ class StreamOperationTest extends TestCase {
         if (defined('HHVM_VERSION')) {
             $this->assertWarning('fopen(): No such file or directory');
         } else {
-            $this->assertWarning('failed to open stream');
+            $this->assertWarning('Failed to open stream');
         }
     }
 
@@ -533,6 +534,7 @@ class StreamOperationTest extends TestCase {
         $len = file_put_contents("flysystem://$file", $content);
         $this->assertSame(strlen($content), $len);
         $this->assertFileContent($file, $content);
+        return $len;
     }
 
     protected function assertPerm($file, $perm)

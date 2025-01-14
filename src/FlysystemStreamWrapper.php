@@ -150,6 +150,11 @@ class FlysystemStreamWrapper
     protected $uri;
 
     /**
+     * @var string
+     */
+    public $context;
+
+    /**
      * Registers the stream wrapper protocol if not already registered.
      *
      * @param string              $protocol      The protocol.

@@ -140,6 +140,39 @@ class Stat extends AbstractPlugin
     }
 
     /**
+     * Normalize a permissions string.
+     *
+     * @param string $permissions A permissions string, such as '644' or
+     * 'drw-rw-r--'
+     *
+     * @return int The numeric version of the permissions.
+     */
+    protected function normalizePermissions($permissions)
+    {
+      if (is_numeric($permissions)) {
+        return $permissions & 0777;
+      }
+
+      // Remove the type identifier.
+      $permissions = substr(str_pad($permissions, 9, '-', STR_PAD_LEFT), -9);
+      
+      // Map the string rights to the numeric counterparts.
+      $map = ['-' => '0', 'r' => '4', 'w' => '2', 'x' => '1'];
+      $permissions = strtr($permissions, $map);
+
+      // split up the permission groups
+      $parts = str_split($permissions, 3);
+
+      // Convert the groups.
+      $mapper = function ($part) {
+        return array_sum(str_split($part));
+      };
+
+      // Converts to decimal number.
+      return octdec(implode('', array_map($mapper, $parts)));
+    }
+
+    /**
      * Merges the available metadata from Filesystem::getMetadata().
      *
      * @param array $metadata The metadata.
@@ -154,8 +187,14 @@ class Stat extends AbstractPlugin
         $ret['gid'] = $this->uid->getGid();
 
         $ret['mode'] = $metadata['type'] === 'dir' ? 040000 : 0100000;
-        $ret['mode'] += $this->permissions[$metadata['type']][$metadata['visibility']];
+        
+        $visibility = $metadata['visibility'];
+        if ($visibility != AdapterInterface::VISIBILITY_PUBLIC && $visibility != AdapterInterface::VISIBILITY_PRIVATE) {
+          $visibility = $this->normalizePermissions($visibility) & 0044 ? AdapterInterface::VISIBILITY_PUBLIC : AdapterInterface::VISIBILITY_PRIVATE;
+        }
 
+        $ret['mode'] += $this->permissions[$metadata['type']][$visibility];
+        
         if (isset($metadata['size'])) {
             $ret['size'] = (int) $metadata['size'];
         }
