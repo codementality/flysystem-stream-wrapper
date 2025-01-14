@@ -14,19 +14,36 @@
             "email": "lisa@codementality.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "lhridley/stream-util",
+                "version": "dev-main",
+                "source": {
+                    "url": "https://github.com/lhridley/stream-util",
+                    "type": "git",
+                    "reference": "8f5a1c82"
+                },
+                "replace": {
+                    "twistor/stream-util": "1.0.9"
+                }
+            }
+        }    
+    ],
     "require": {
         "league/flysystem": "^1.0.9",
-        "lhridley/stream-util": "1.0.1"
+        "lhridley/stream-util": "dev-main"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.8"
+        "phpunit/phpunit": "^11.5.3"
     },
     "replace": {
-        "twistor/flysystem-stream-wrapper":"1.0.9"
+        "twistor/flysystem-stream-wrapper":"^1.0"
     },    
     "autoload": {
         "psr-4": {
-            "Twistor\\": "src/"
+            "Lhridley\\": "src/"
         }
     }
-}I
+}
