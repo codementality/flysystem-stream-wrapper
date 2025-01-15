@@ -38,4 +38,4 @@ FlysystemStreamWrapper::unregister('fly');
 
 This project tries to emulate the behavior of the standard PHP functions,
 rename(), mkdir(), unlink(), etc., as closely as possible. This includes
-emitting wanrings. If any differences are discovered, please file an issue.
+emitting warnings. If any differences are discovered, please file an issue.
