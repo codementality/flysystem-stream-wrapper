@@ -1,9 +1,9 @@
 {
-    "name": "lhridley/flysystem-stream-wrapper",
+    "name": "codementality/flysystem-stream-wrapper",
     "type": "library",
-    "description": "Adapts Flysystem filesystems to PHP stream wrappers. (fork)",
+    "description": "Adapts Flysystem filesystems to PHP stream wrappers. (fork of twistor/flysystem-stream-wrapper_",
     "license": "MIT",
-    "homepage": "http://github.com/lhridley/flysystem-stream-wrapper",
+    "homepage": "http://github.com/codementality/flysystem-stream-wrapper",
     "authors": [
         {
             "name": "Chris Leppanen",
@@ -14,26 +14,9 @@
             "email": "lisa@codementality.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "lhridley/stream-util",
-                "version": "dev-main",
-                "source": {
-                    "url": "https://github.com/lhridley/stream-util",
-                    "type": "git",
-                    "reference": "8f5a1c82"
-                },
-                "replace": {
-                    "twistor/stream-util": "1.0.9"
-                }
-            }
-        }    
-    ],
     "require": {
         "league/flysystem": "^1.0.9",
-        "lhridley/stream-util": "dev-main"
+        "codementality/stream-util": "v2.0.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.5.3",
@@ -44,7 +27,7 @@
     },    
     "autoload": {
         "psr-4": {
-            "Lhridley\\": ["src/", "vendor/lhridley/stream-util/src/"]
+            "Codementality\\": ["src/", "vendor/lhridley/stream-util/src/"]
         }
     }
 }

@@ -1,17 +1,16 @@
 # Flysystem stream wrapper
 
-[![Author](https://img.shields.io/badge/author-@chrisleppanen-blue.svg?style=flat-square)](https://twitter.com/chrisleppanen)
-[![Build Status](https://img.shields.io/travis/twistor/flysystem-stream-wrapper/master.svg?style=flat-square)](https://travis-ci.org/twistor/flysystem-stream-wrapper)
-[![AppVeyor](https://img.shields.io/appveyor/ci/twistor/flysystem-stream-wrapper.svg?style=flat-square&label=AppVeyor)](https://ci.appveyor.com/project/twistor/flysystem-stream-wrapper)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/twistor/flysystem-stream-wrapper.svg?style=flat-square)](https://scrutinizer-ci.com/g/twistor/flysystem-stream-wrapper/code-structure)
+This package is a forked and updated version of the original package, twistor/flysystem-stream-wrapper. It
+has been updated to run on PHP 8.2+, and unit tests have been uppdated for PHPUnit 11+.
+
+![Status](https://github.com/codementality/flysystem-stream-wrapper/actions/workflows/tests.yml/badge.svg)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Packagist Version](https://img.shields.io/packagist/v/twistor/flysystem-stream-wrapper.svg?style=flat-square)](https://packagist.org/packages/twistor/flysystem-stream-wrapper)
-[![Total Downloads](https://img.shields.io/packagist/dt/twistor/flysystem-stream-wrapper.svg?style=flat-square)](https://packagist.org/packages/twistor/flysystem-stream-wrapper)
+[![Packagist Version](https://img.shields.io/packagist/v/codementality/flysystem-stream-wrapper.svg?style=flat-square)](https://packagist.org/packages/codementality/flysystem-stream-wrapper)
 
 ## Installation
 
 ```
-composer require twistor/flysystem-stream-wrapper
+composer require codementality/flysystem-stream-wrapper
 ```
 
 ## Usage
@@ -19,7 +18,7 @@ composer require twistor/flysystem-stream-wrapper
 ```php
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use Twistor\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper;
 
 // Get a Filesystem object.
 $filesystem = new Filesystem(new Local('/some/path'));
