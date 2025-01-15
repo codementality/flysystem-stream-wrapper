@@ -27,7 +27,7 @@
     },    
     "autoload": {
         "psr-4": {
-            "Codementality\\": ["src/", "vendor/lhridley/stream-util/src/"]
+            "Codementality\\": ["src/", "vendor/codementality/stream-util/src/"]
         }
     }
 }
