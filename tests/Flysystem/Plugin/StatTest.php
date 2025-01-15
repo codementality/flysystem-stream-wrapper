@@ -1,7 +1,7 @@
 <?php
 
 use League\Flysystem\Filesystem;
-use Lhridley\Flysystem\Plugin\Stat;
+use Codementality\Flysystem\Plugin\Stat;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 

@@ -2,7 +2,7 @@
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Filesystem;
-use Lhridley\Flysystem\Plugin\ForcedRename;
+use Codementality\Flysystem\Plugin\ForcedRename;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 

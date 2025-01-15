@@ -1,6 +1,6 @@
 <?php
 
-use Lhridley\Uid;
+use Codementality\Uid;
 use PHPUnit\Framework\TestCase;
 
 class UidTest extends TestCase {

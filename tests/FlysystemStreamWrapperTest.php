@@ -3,7 +3,7 @@
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
-use Lhridley\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper;
 use PHPUnit\Framework\TestCase;
 
 class FlysystemStreamWrapperTest extends TestCase {

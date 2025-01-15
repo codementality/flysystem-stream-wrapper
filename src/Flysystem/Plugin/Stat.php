@@ -1,11 +1,11 @@
 <?php
 
-namespace Lhridley\Flysystem\Plugin;
+namespace Codementality\Flysystem\Plugin;
 
 use League\Flysystem\AdapterInterface;
-use Lhridley\FlysystemStreamWrapper;
-use Lhridley\PosixUid;
-use Lhridley\Uid;
+use Codementality\FlysystemStreamWrapper;
+use Codementality\PosixUid;
+use Codementality\Uid;
 
 class Stat extends AbstractPlugin
 {
@@ -45,7 +45,7 @@ class Stat extends AbstractPlugin
     protected $required;
 
     /**
-     * @var \Lhridley\Uid
+     * @var \Codementality\Uid
      */
     protected $uid;
 

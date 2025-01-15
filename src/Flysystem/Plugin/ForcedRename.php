@@ -1,12 +1,12 @@
 <?php
 
-namespace Lhridley\Flysystem\Plugin;
+namespace Codementality\Flysystem\Plugin;
 
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Util;
-use Lhridley\Flysystem\Exception\DirectoryExistsException;
-use Lhridley\Flysystem\Exception\DirectoryNotEmptyException;
-use Lhridley\Flysystem\Exception\NotADirectoryException;
+use Codementality\Flysystem\Exception\DirectoryExistsException;
+use Codementality\Flysystem\Exception\DirectoryNotEmptyException;
+use Codementality\Flysystem\Exception\NotADirectoryException;
 
 class ForcedRename extends AbstractPlugin
 {
@@ -27,9 +27,9 @@ class ForcedRename extends AbstractPlugin
      * @return bool
      *
      * @throws \League\Flysystem\FileNotFoundException
-     * @throws \Lhridley\Flysystem\Exception\DirectoryExistsException
-     * @throws \Lhridley\Flysystem\Exception\DirectoryNotEmptyException
-     * @throws \Lhridley\Flysystem\Exception\NotADirectoryException
+     * @throws \Codementality\Flysystem\Exception\DirectoryExistsException
+     * @throws \Codementality\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Codementality\Flysystem\Exception\NotADirectoryException
      */
     public function handle($path, $newpath)
     {
@@ -58,9 +58,9 @@ class ForcedRename extends AbstractPlugin
      * @return bool
      *
      * @throws \League\Flysystem\FileNotFoundException
-     * @throws \Lhridley\Flysystem\Exception\DirectoryExistsException
-     * @throws \Lhridley\Flysystem\Exception\DirectoryNotEmptyException
-     * @throws \Lhridley\Flysystem\Exception\NotADirectoryException
+     * @throws \Codementality\Flysystem\Exception\DirectoryExistsException
+     * @throws \Codementality\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Codementality\Flysystem\Exception\NotADirectoryException
      */
     protected function isValidRename($source, $dest)
     {
@@ -91,9 +91,9 @@ class ForcedRename extends AbstractPlugin
      *
      * @return bool
      *
-     * @throws \Lhridley\Flysystem\Exception\DirectoryExistsException
-     * @throws \Lhridley\Flysystem\Exception\DirectoryNotEmptyException
-     * @throws \Lhridley\Flysystem\Exception\NotADirectoryException
+     * @throws \Codementality\Flysystem\Exception\DirectoryExistsException
+     * @throws \Codementality\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Codementality\Flysystem\Exception\NotADirectoryException
      */
     protected function compareTypes($source, $dest)
     {

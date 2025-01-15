@@ -1,6 +1,6 @@
 <?php
 
-namespace Lhridley\Flysystem\Exception;
+namespace Codementality\Flysystem\Exception;
 
 class DirectoryExistsException extends TriggerErrorException
 {

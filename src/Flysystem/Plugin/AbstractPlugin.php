@@ -1,6 +1,6 @@
 <?php
 
-namespace Lhridley\Flysystem\Plugin;
+namespace Codementality\Flysystem\Plugin;
 
 use League\Flysystem\Config;
 use League\Flysystem\Plugin\AbstractPlugin as FlysystemPlugin;

@@ -1,18 +1,18 @@
 <?php
 
-namespace Lhridley;
+namespace Codementality;
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Util;
-use Lhridley\Flysystem\Exception\TriggerErrorException;
-use Lhridley\Flysystem\Plugin\ForcedRename;
-use Lhridley\Flysystem\Plugin\Mkdir;
-use Lhridley\Flysystem\Plugin\Rmdir;
-use Lhridley\Flysystem\Plugin\Stat;
-use Lhridley\Flysystem\Plugin\Touch;
-use Lhridley\StreamUtil;
+use Codementality\Flysystem\Exception\TriggerErrorException;
+use Codementality\Flysystem\Plugin\ForcedRename;
+use Codementality\Flysystem\Plugin\Mkdir;
+use Codementality\Flysystem\Plugin\Rmdir;
+use Codementality\Flysystem\Plugin\Stat;
+use Codementality\Flysystem\Plugin\Touch;
+use Codementality\StreamUtil;
 
 /**
  * An adapter for Flysystem to a PHP stream wrapper.

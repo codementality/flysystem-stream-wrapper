@@ -1,6 +1,6 @@
 <?php
 
-namespace Lhridley;
+namespace Codementality;
 
 class PosixUid extends Uid
 {

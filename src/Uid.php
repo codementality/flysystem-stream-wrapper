@@ -1,6 +1,6 @@
 <?php
 
-namespace Lhridley;
+namespace Codementality;
 
 class Uid
 {

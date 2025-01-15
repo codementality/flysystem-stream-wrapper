@@ -2,7 +2,7 @@
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use Lhridley\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper;
 
 class WritableOptimzedTest extends StreamOperationTest
 {

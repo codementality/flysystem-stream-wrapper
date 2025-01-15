@@ -1,6 +1,6 @@
 <?php
 
-use Lhridley\Flysystem\Exception\DirectoryExistsException;
+use Codementality\Flysystem\Exception\DirectoryExistsException;
 use PHPUnit\Framework\TestCase;
 
 class TriggerErrorExceptionTest extends TestCase {
