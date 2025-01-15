@@ -599,7 +599,7 @@ class FlysystemStreamWrapper
     public function stream_stat()
     {
         // Get metadata from original file.
-        $stat = $this->url_stat($this->uri, static::STREAM_URL_IGNORE_SIZE | STREAM_URL_STAT_QUIET) ?: [];
+        $stat = $this->url_stat($this->uri, self::STREAM_URL_IGNORE_SIZE | STREAM_URL_STAT_QUIET) ?: [];
 
         // Newly created file.
         if (empty($stat['mode'])) {
