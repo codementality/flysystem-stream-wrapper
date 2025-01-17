@@ -38,13 +38,13 @@ class FlysystemStreamWrapperTest extends TestCase {
         $filesystem->delete('test.txt');
     }
 
-    public function testGetRegisteredProtocols()
+    public function testGetRegisteredSchemas()
     {
         $filesystem = new Filesystem(new NullAdapter());
         FlysystemStreamWrapper::register('test1', $filesystem);
         FlysystemStreamWrapper::register('test2', $filesystem);
 
-        $this->assertSame(['test1', 'test2'], FlysystemStreamWrapper::getRegisteredProtocols());
+        $this->assertSame(['test1', 'test2'], FlysystemStreamWrapper::getRegisteredSchemass());
     }
 
     public function testUnregisterAll()

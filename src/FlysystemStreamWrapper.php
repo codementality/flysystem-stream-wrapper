@@ -7,6 +7,7 @@ use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Util;
 use Codementality\Flysystem\Exception\TriggerErrorException;
+// @deprecated not part of Flysystem V3
 use Codementality\Flysystem\Plugin\ForcedRename;
 use Codementality\Flysystem\Plugin\Mkdir;
 use Codementality\Flysystem\Plugin\Rmdir;
@@ -143,7 +144,7 @@ class FlysystemStreamWrapper
     /**
      * Instance URI (stream).
      *
-     * A stream is referenced as "protocol://target".
+     * A stream is referenced as "schema://target".
      *
      * @var string
      */
@@ -155,44 +156,50 @@ class FlysystemStreamWrapper
     public $context;
 
     /**
-     * Registers the stream wrapper protocol if not already registered.
+     * Registers the stream wrapper schema if not already registered.
      *
-     * @param string              $protocol      The protocol.
-     * @param FilesystemInterface $filesystem    The filesystem.
-     * @param array|null          $configuration Optional configuration.
-     * @param int                 $flags         Should be set to STREAM_IS_URL if protocol is a URL protocol. Default is 0, local stream.
+     * @param string $schema
+     *   The schema.
+     * @param FilesystemInterface $filesystem
+     *   The League/Flysystem filesystem object.
+     * @param array|null $configuration
+     *   Optional configuration.
+     * @param int $flags 
+     *   Should be set to STREAM_IS_URL if schema is a URL schema. 
+     *   Default is local stream.
      *
-     * @return bool True if the protocol was registered, false if not.
+     * @return bool
+     *   True if the schema was registered, false if not.
      */
-    public static function register($protocol, FilesystemInterface $filesystem, array $configuration = null, $flags = 0)
+    public static function register($schema, FilesystemInterface $filesystem, array $configuration = null, $flags = 0)
     {
-        if (static::streamWrapperExists($protocol)) {
+        if (static::streamWrapperExists($schema)) {
             return false;
         }
 
-        static::$config[$protocol] = $configuration ?: static::$defaultConfiguration;
-        static::registerPlugins($protocol, $filesystem);
-        static::$filesystems[$protocol] = $filesystem;
+        static::$config[$schema] = $configuration ?: static::$defaultConfiguration;
+        static::registerPlugins($schema, $filesystem);
+        static::$filesystems[$schema] = $filesystem;
 
-        return stream_wrapper_register($protocol, __CLASS__, $flags);
+        return stream_wrapper_register($schema, __CLASS__, $flags);
     }
 
     /**
      * Unregisters a stream wrapper.
      *
-     * @param string $protocol The protocol.
+     * @param string $schema The schema.
      *
-     * @return bool True if the protocol was unregistered, false if not.
+     * @return bool True if the schema was unregistered, false if not.
      */
-    public static function unregister($protocol)
+    public static function unregister($schema)
     {
-        if ( ! static::streamWrapperExists($protocol)) {
+        if ( ! static::streamWrapperExists($schema)) {
             return false;
         }
 
-        unset(static::$filesystems[$protocol]);
+        unset(static::$filesystems[$schema]);
 
-        return stream_wrapper_unregister($protocol);
+        return stream_wrapper_unregister($schema);
     }
 
     /**
@@ -200,45 +207,46 @@ class FlysystemStreamWrapper
      */
     public static function unregisterAll()
     {
-        foreach (static::getRegisteredProtocols() as $protocol) {
-            static::unregister($protocol);
+        foreach (static::getRegisteredSchemas() as $schema) {
+            static::unregister($schema);
         }
     }
 
     /**
-     * @return array The list of registered protocols.
+     * @return array The list of registered schemas.
      */
-    public static function getRegisteredProtocols()
+    public static function getRegisteredSchemas()
     {
         return array_keys(static::$filesystems);
     }
 
     /**
-     * Determines if a protocol is registered.
+     * Determines if a schema is registered.
      *
-     * @param string $protocol The protocol to check.
+     * @param string $schema The schema to check.
      *
      * @return bool True if it is registered, false if not.
      */
-    protected static function streamWrapperExists($protocol)
+    protected static function streamWrapperExists($schema)
     {
-        return in_array($protocol, stream_get_wrappers(), true);
+        return in_array($schema, stream_get_wrappers(), true);
     }
 
     /**
      * Registers plugins on the filesystem.
-     * @param string $protocol
+     * @param string $schema
      * @param FilesystemInterface $filesystem
      */
-    protected static function registerPlugins($protocol, FilesystemInterface $filesystem)
+    protected static function registerPlugins($schema, FilesystemInterface $filesystem)
     {
+        //@deprecated and removed ForcedRename
         $filesystem->addPlugin(new ForcedRename());
         $filesystem->addPlugin(new Mkdir());
         $filesystem->addPlugin(new Rmdir());
 
         $stat = new Stat(
-            static::$config[$protocol]['permissions'],
-            static::$config[$protocol]['metadata']
+            static::$config[$schema]['permissions'],
+            static::$config[$schema]['metadata']
         );
 
         $filesystem->addPlugin($stat);
@@ -347,7 +355,8 @@ class FlysystemStreamWrapper
     {
         $this->uri = $uri_from;
         $args = [$this->getTarget($uri_from), $this->getTarget($uri_to)];
-
+        // @deprecated replace forcedRename with move.
+        // @deprecated replace rename with move.
         return $this->invoke($this->getFilesystem(), 'forcedRename', $args, 'rename');
     }
 
@@ -422,6 +431,7 @@ class FlysystemStreamWrapper
         $pos = ftell($this->handle);
 
         $args = [$this->getTarget(), $this->handle];
+        // @deprecated replace putStream with writeStream.
         $success = $this->invoke($this->getFilesystem(), 'putStream', $args, 'fflush');
 
         if (is_resource($this->handle)) {
@@ -609,6 +619,7 @@ class FlysystemStreamWrapper
 
         // Use the size of our handle, since it could have been written to or
         // truncated.
+        // @deprecated replace getSize with fileSize.
         $stat['size'] = $stat[7] = StreamUtil::getSize($this->handle);
 
         return $stat;
@@ -801,6 +812,7 @@ class FlysystemStreamWrapper
      */
     protected function getXStream($path)
     {
+        // @deprecated replace has with fileExists.
         if ($this->getFilesystem()->has($path)) {
             trigger_error('fopen(): failed to open stream: File exists', E_USER_WARNING);
 
@@ -831,11 +843,11 @@ class FlysystemStreamWrapper
     }
 
     /**
-     * Returns the protocol from the internal URI.
+     * Returns the schema from the internal URI.
      *
-     * @return string The protocol.
+     * @return string The schema.
      */
-    protected function getProtocol()
+    protected function getSchema()
     {
         return substr($this->uri, 0, strpos($this->uri, '://'));
     }
@@ -867,7 +879,7 @@ class FlysystemStreamWrapper
      */
     protected function getConfiguration($key = null)
     {
-        return $key ? static::$config[$this->getProtocol()][$key] : static::$config[$this->getProtocol()];
+        return $key ? static::$config[$this->getSchema()][$key] : static::$config[$this->getSchema()];
     }
 
     /**
@@ -881,7 +893,7 @@ class FlysystemStreamWrapper
             return $this->filesystem;
         }
 
-        $this->filesystem = static::$filesystems[$this->getProtocol()];
+        $this->filesystem = static::$filesystems[$this->getSchema()];
 
         return $this->filesystem;
     }
@@ -950,7 +962,7 @@ class FlysystemStreamWrapper
         // with case-insensitive filesystems. We use bin2hex() rather than a
         // hashing function since most scheme names are small, and bin2hex()
         // only doubles the string length.
-        $sub_dir = bin2hex($this->getProtocol());
+        $sub_dir = bin2hex($this->getSchema());
 
         // Since we're flattening out whole filesystems, at least create a
         // sub-directory for each scheme to attempt to reduce the number of
