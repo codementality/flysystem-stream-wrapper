@@ -2,7 +2,9 @@
 
 namespace Codementality;
 
+use Codementality\StreamWrapperManagerInterface;
 use League\Flysystem\AdapterInterface;
+// use League\Flysysem\FilesystemAdapter;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Util;
@@ -18,8 +20,8 @@ use Codementality\StreamUtil;
 /**
  * An adapter for Flysystem to a PHP stream wrapper.
  */
-class FlysystemStreamWrapper
-{
+class FlysystemStreamWrapper extends StreamWrapperManagerInterface {
+
     /**
      * A flag to tell FlysystemStreamWrapper::url_stat() to ignore the size.
      *
@@ -155,103 +157,73 @@ class FlysystemStreamWrapper
      */
     public $context;
 
-    /**
-     * Registers the stream wrapper schema if not already registered.
-     *
-     * @param string $schema
-     *   The schema.
-     * @param FilesystemInterface $filesystem
-     *   The League/Flysystem filesystem object.
-     * @param array|null $configuration
-     *   Optional configuration.
-     * @param int $flags 
-     *   Should be set to STREAM_IS_URL if schema is a URL schema. 
-     *   Default is local stream.
-     *
-     * @return bool
-     *   True if the schema was registered, false if not.
-     */
-    public static function register($schema, FilesystemInterface $filesystem, array $configuration = null, $flags = 0)
-    {
-        if (static::streamWrapperExists($schema)) {
-            return false;
-        }
-
-        static::$config[$schema] = $configuration ?: static::$defaultConfiguration;
-        static::registerPlugins($schema, $filesystem);
-        static::$filesystems[$schema] = $filesystem;
-
-        return stream_wrapper_register($schema, __CLASS__, $flags);
+  /**
+   * {@inheritdoc}
+   */
+  public static function register($schema, FilesystemInterface $filesystem, array $configuration = null, $flags = 0) {
+    if (static::streamWrapperExists($schema)) {
+        return false;
     }
 
-    /**
-     * Unregisters a stream wrapper.
-     *
-     * @param string $schema The schema.
-     *
-     * @return bool True if the schema was unregistered, false if not.
-     */
-    public static function unregister($schema)
-    {
-        if ( ! static::streamWrapperExists($schema)) {
-            return false;
-        }
+    static::$config[$schema] = $configuration ?: static::$defaultConfiguration;
+    static::registerPlugins($schema, $filesystem);
+    static::$filesystems[$schema] = $filesystem;
 
-        unset(static::$filesystems[$schema]);
+    return stream_wrapper_register($schema, __CLASS__, $flags);
+  }
 
-        return stream_wrapper_unregister($schema);
+  /**
+   * {@inheritdoc}
+   */
+  public static function unregister($schema) {
+    if ( ! static::streamWrapperExists($schema)) {
+        return false;
     }
+    unset(static::$filesystems[$schema]);
 
-    /**
-     * Unregisters all controlled stream wrappers.
-     */
-    public static function unregisterAll()
-    {
-        foreach (static::getRegisteredSchemas() as $schema) {
-            static::unregister($schema);
-        }
+    return stream_wrapper_unregister($schema);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function unregisterAll() {
+    foreach (static::getRegisteredSchemas() as $schema) {
+        static::unregister($schema);
     }
+  }
 
-    /**
-     * @return array The list of registered schemas.
-     */
-    public static function getRegisteredSchemas()
-    {
-        return array_keys(static::$filesystems);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public static function getRegisteredSchemas() {
+    return array_keys(static::$filesystems);
+  }
 
-    /**
-     * Determines if a schema is registered.
-     *
-     * @param string $schema The schema to check.
-     *
-     * @return bool True if it is registered, false if not.
-     */
-    protected static function streamWrapperExists($schema)
-    {
-        return in_array($schema, stream_get_wrappers(), true);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected static function streamWrapperExists($schema) {
+    return in_array($schema, stream_get_wrappers(), true);
+  }
 
-    /**
-     * Registers plugins on the filesystem.
-     * @param string $schema
-     * @param FilesystemInterface $filesystem
-     */
-    protected static function registerPlugins($schema, FilesystemInterface $filesystem)
-    {
-        //@deprecated and removed ForcedRename
-        $filesystem->addPlugin(new ForcedRename());
-        $filesystem->addPlugin(new Mkdir());
-        $filesystem->addPlugin(new Rmdir());
+  /**
+   * {@inheritdoc}
+   */
+  protected static function registerPlugins($schema, FilesystemInterface $filesystem) {
+    //@deprecated and removed ForcedRename
+    $filesystem->addPlugin(new ForcedRename());
+    $filesystem->addPlugin(new Mkdir());
+    $filesystem->addPlugin(new Rmdir());
 
-        $stat = new Stat(
-            static::$config[$schema]['permissions'],
-            static::$config[$schema]['metadata']
-        );
+    $stat = new Stat(
+        static::$config[$schema]['permissions'],
+        static::$config[$schema]['metadata']
+    );
 
-        $filesystem->addPlugin($stat);
-        $filesystem->addPlugin(new Touch());
-    }
+    $filesystem->addPlugin($stat);
+    $filesystem->addPlugin(new Touch());
+  }
 
     /**
      * Closes the directory handle.

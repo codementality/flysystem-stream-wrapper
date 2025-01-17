@@ -44,7 +44,7 @@ class FlysystemStreamWrapperTest extends TestCase {
         FlysystemStreamWrapper::register('test1', $filesystem);
         FlysystemStreamWrapper::register('test2', $filesystem);
 
-        $this->assertSame(['test1', 'test2'], FlysystemStreamWrapper::getRegisteredSchemass());
+        $this->assertSame(['test1', 'test2'], FlysystemStreamWrapper::getRegisteredSchemas());
     }
 
     public function testUnregisterAll()
