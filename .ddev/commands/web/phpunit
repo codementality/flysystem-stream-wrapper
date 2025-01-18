@@ -4,4 +4,4 @@
 ## Usage: phpunit
 ## Example: ddev phpunit
 
-./vendor/bin/phpunit -c  phpunit.xml
+./vendor/bin/phpunit -c phpunit.xml
