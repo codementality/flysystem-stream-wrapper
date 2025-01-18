@@ -16,6 +16,7 @@ use League\Flysystem\Config;
 // use League\Flysysem\FilesystemAdapter;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\RootViolationException;
 // use League\Flysystem\PathNormalizer;
 use League\Flysystem\Util;
 use \resource;
@@ -291,8 +292,11 @@ class FlysystemStreamWrapper extends StreamWrapperManagerInterface implements Ph
    */
   public function mkdir($uri, $mode, $options): bool {
     $this->uri = $uri;
+    $uri = $this->getTarget();
+    $dirname = Util::normalizePath($uri);
+    $adapter = $this->getFilesystem()->getAdapter();
 
-    return $this->invoke($this->getFilesystem(), 'mkdir', [$this->getTarget(), $mode, $options]);
+    return $this->invoke($this->getFilesystem(), 'mkdir', [$dirname, $mode, $options, $adapter]);
   }
 
   /**
@@ -311,6 +315,7 @@ class FlysystemStreamWrapper extends StreamWrapperManagerInterface implements Ph
    */
   public function rmdir($uri, $options): bool {
     $this->uri = $uri;
+  
     return $this->invoke($this->getFilesystem(), 'rmdir', [$this->getTarget(), $options]);
   }
 
