@@ -8,11 +8,11 @@ use Codementality\Flysystem\Plugin\ForcedRename;
 use Codementality\Flysystem\Plugin\Mkdir;
 use Codementality\Flysystem\Plugin\Rmdir;
 use Codementality\Flysystem\Plugin\Stat;
-use Codementality\Flysystem\Plugin\Touch;
 use Codementality\PhpStreamWrapperInterface;
 use Codementality\StreamUtil;
 use Codementality\StreamWrapperManagerInterface;
 use League\Flysystem\AdapterInterface;
+use League\Flysystem\Config;
 // use League\Flysysem\FilesystemAdapter;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
@@ -225,7 +225,6 @@ class FlysystemStreamWrapper extends StreamWrapperManagerInterface implements Ph
     );
 
     $filesystem->addPlugin($stat);
-    $filesystem->addPlugin(new Touch());
   }
 
 
@@ -413,7 +412,7 @@ class FlysystemStreamWrapper extends StreamWrapperManagerInterface implements Ph
         return true;
 
       case STREAM_META_TOUCH:
-        return $this->invoke($this->getFilesystem(), 'touch', [$this->getTarget()]);
+        return $this->touch($this->getTarget());
 
       default:
         return false;
@@ -828,5 +827,32 @@ class FlysystemStreamWrapper extends StreamWrapperManagerInterface implements Ph
     $this->lockHandle = null;
 
     return $success;
+  }
+  /**
+   * Gets the default Flysystem configuration.
+   *
+   * @return \League\Flysystem\Config
+   *   Flysystem Config object with default configuration.
+   */
+  protected function defaultConfig() {
+    $config = new Config();
+    $config->setFallback($this->getFilesystem()->getConfig());
+
+    return $config;
+  }
+
+  /**
+   * Emulates touch().
+   *
+   * @param string $uri
+   *   URI to "touch".
+   */
+  public function touch($uri): bool {
+    $uri = Util::normalizePath($uri);
+    $adapter = $this->getFilesystem()->getAdapter();
+    if ($adapter->has($uri)) {
+        return true;
+    }
+    return (bool) $adapter->write($uri, '', $this->defaultConfig());
   }
 }
