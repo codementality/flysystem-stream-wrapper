@@ -45,7 +45,7 @@ class ForcedRename extends AbstractPlugin
             // Returns false if a Flysystem call fails.
             return false;
         }
-
+        //@deprecated and removed rename, change to move
         return (bool) $this->filesystem->getAdapter()->rename($path, $newpath);
     }
 
@@ -65,17 +65,17 @@ class ForcedRename extends AbstractPlugin
     protected function isValidRename($source, $dest)
     {
         $adapter = $this->filesystem->getAdapter();
-
+        // @deprecated replace has with fileExists.
         if ( ! $adapter->has($source)) {
             throw new FileNotFoundException($source);
         }
 
         $subdir = Util::dirname($dest);
-
+        // @deprecated replace has with directoryExists.
         if (strlen($subdir) && ! $adapter->has($subdir)) {
             throw new FileNotFoundException($source);
         }
-
+        // @deprecated replace has with fileExists, verify that logic is not needed also for directoryExists.
         if ( ! $adapter->has($dest)) {
             return true;
         }
@@ -98,8 +98,9 @@ class ForcedRename extends AbstractPlugin
     protected function compareTypes($source, $dest)
     {
         $adapter = $this->filesystem->getAdapter();
-
+        //@deprecated and removed ::getMetadata
         $source_type = $adapter->getMetadata($source)['type'];
+        //@deprecated and removed ::getMetadata
         $dest_type = $adapter->getMetadata($dest)['type'];
 
         // These three checks are done in order of cost to minimize Flysystem

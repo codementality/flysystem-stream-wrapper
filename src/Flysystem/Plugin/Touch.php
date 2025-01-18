@@ -25,8 +25,8 @@ class Touch extends AbstractPlugin
     {
         $path = Util::normalizePath($path);
 
-        $adapter = $this->filesystem->getAdapter();
-
+        $adapter = $$this->getFilesystem()->getAdapter();
+        // @deprecated replace has with fileExists.
         if ($adapter->has($path)) {
             return true;
         }

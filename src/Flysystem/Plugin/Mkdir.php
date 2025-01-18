@@ -34,13 +34,14 @@ class Mkdir extends AbstractPlugin
 
         // If recursive, or a single level directory, just create it.
         if (($options & STREAM_MKDIR_RECURSIVE) || strpos($dirname, '/') === false) {
+            // @deprecated replace createDir with createDirectory.
             return (bool) $adapter->createDir($dirname, $this->defaultConfig());
         }
-
+        // @deprecated replace has with directoryExists.
         if ( ! $adapter->has(dirname($dirname))) {
             throw new FileNotFoundException($dirname);
         }
-
+        // @deprecated replace createDir with createDirectory.
         return (bool) $adapter->createDir($dirname, $this->defaultConfig());
     }
 }
