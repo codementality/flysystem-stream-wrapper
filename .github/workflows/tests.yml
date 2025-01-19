@@ -1,41 +1,32 @@
-name: Tests
+name: PHP Unit tests
 
-on: [push, pull_request]
-
+on:
+  push:
+    branches:
+      - 'feature/*'
+      - 'bugfix/*'
+      - 'main'
+      - '1.x'
+      - '3.x'
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
+  php_unit:
+    runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
-      matrix:
-        os: [ubuntu-latest]
-        php: [7.2, 7.3, 7.4, 8.0]
-        stability: [prefer-stable]
-        include:
-          - php: 7.2
-            stability: prefer-lowest
-            os: ubuntu-latest
-
-    name: P${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
-
+      fail-fast: false
     steps:
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@develop
         with:
-          php-version: ${{ matrix.php }}
-          extensions: intl, pcntl, shmop, sysvmsg
-          coverage: none
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup problem matchers
+          php-version: 8.3
+          extensions: intl-76.1, pcntl, shmop, sysvmsg
+        env:
+          fail-fast: true
+      # Create new drupal project with Composer install
+      - name: Composer Install
+        run: composer install -o
+      # Run PHP Unit tests
+      - name:  PHP unit tests
         run: |
-          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-      - name: Install dependencies
-        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
-
-      - name: Execute tests
-        run: vendor/bin/phpunit
+          $(pwd)/vendor/bin/phpunit -c $(pwd)/phpunit.10.xml
