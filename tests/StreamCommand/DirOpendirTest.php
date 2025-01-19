@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\StreamCommand;
 
 use Generator;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\SymbolicLinkEncountered;
-use M2MTech\FlysystemStreamWrapper\Flysystem\FileData;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\DirOpendirCommand;
-use M2MTech\FlysystemStreamWrapper\Tests\Assert;
+use Codementality\FlysystemStreamWrapper\Flysystem\FileData;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\DirOpendirCommand;
+use Codementality\FlysystemStreamWrapper\Tests\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class DirOpendirTest extends AbstractStreamCommandTestCase

@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\StreamCommand;
 
 use League\Flysystem\UnableToMoveFile;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\RenameCommand;
-use M2MTech\FlysystemStreamWrapper\Tests\Assert;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\RenameCommand;
+use Codementality\FlysystemStreamWrapper\Tests\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class RenameTest extends AbstractStreamCommandTestCase

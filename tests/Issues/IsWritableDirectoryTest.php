@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\Issues;
+namespace Codementality\FlysystemStreamWrapper\Tests\Issues;
 
-use M2MTech\FlysystemStreamWrapper\Tests\Assert;
-use M2MTech\FlysystemStreamWrapper\Tests\FileCommand\AbstractFileCommandTestCase;
+use Codementality\FlysystemStreamWrapper\Tests\Assert;
+use Codementality\FlysystemStreamWrapper\Tests\FileCommand\AbstractFileCommandTestCase;
 
 class IsWritableDirectoryTest extends AbstractFileCommandTestCase
 {

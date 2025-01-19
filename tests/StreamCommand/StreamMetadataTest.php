@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\StreamCommand;
 
 use League\Flysystem\UnableToSetVisibility;
 use League\Flysystem\UnableToWriteFile;
 use League\Flysystem\Visibility;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamMetadataCommand;
-use M2MTech\FlysystemStreamWrapper\Tests\Assert;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamMetadataCommand;
+use Codementality\FlysystemStreamWrapper\Tests\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class StreamMetadataTest extends AbstractStreamCommandTestCase

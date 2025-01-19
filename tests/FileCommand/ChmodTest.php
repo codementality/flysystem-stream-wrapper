@@ -7,12 +7,12 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\FileCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\FileCommand;
 
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToSetVisibility;
-use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
-use M2MTech\FlysystemStreamWrapper\Tests\Assert;
+use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper\Tests\Assert;
 
 class ChmodTest extends AbstractFileCommandTestCase
 {

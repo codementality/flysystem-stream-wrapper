@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\Issues;
+namespace Codementality\FlysystemStreamWrapper\Tests\Issues;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
-use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
-use M2MTech\FlysystemStreamWrapper\Tests\FileCommand\AbstractFileCommandTestCase;
-use M2MTech\FlysystemStreamWrapper\Tests\FileCommand\DataProvider;
-use M2MTech\FlysystemStreamWrapper\Tests\Filesystem\TestRootDirectory;
+use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper\Tests\FileCommand\AbstractFileCommandTestCase;
+use Codementality\FlysystemStreamWrapper\Tests\FileCommand\DataProvider;
+use Codementality\FlysystemStreamWrapper\Tests\Filesystem\TestRootDirectory;
 
 class EmulateDirectoryLastModifiedTest extends AbstractFileCommandTestCase
 {

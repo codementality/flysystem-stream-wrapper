@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\StreamCommand;
 
-use M2MTech\FlysystemStreamWrapper\Flysystem\FileData;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamReadCommand;
+use Codementality\FlysystemStreamWrapper\Flysystem\FileData;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamReadCommand;
 use PHPUnit\Framework\TestCase;
 
 class StreamReadTest extends TestCase

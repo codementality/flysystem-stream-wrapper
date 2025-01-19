@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\Issues;
+namespace Codementality\FlysystemStreamWrapper\Tests\Issues;
 
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamWrapper;
-use M2MTech\FlysystemStreamWrapper\Tests\Assert;
-use M2MTech\FlysystemStreamWrapper\Tests\StreamCommand\AbstractStreamCommandTestCase;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamWrapper;
+use Codementality\FlysystemStreamWrapper\Tests\Assert;
+use Codementality\FlysystemStreamWrapper\Tests\StreamCommand\AbstractStreamCommandTestCase;
 
 class AdapterClosesStreamTest extends AbstractStreamCommandTestCase
 {

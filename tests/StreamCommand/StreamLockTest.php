@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\StreamCommand;
 
 use Amp\Parallel\Sync\SerializationException;
 use Amp\Parallel\Sync\SharedMemoryException;
@@ -15,8 +15,8 @@ use Amp\Parallel\Sync\SharedMemoryParcel;
 use Amp\Parallel\Worker\TaskFailureException;
 use Amp\Promise;
 use Amp\Sync\SyncException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamLockCommand;
-use M2MTech\FlysystemStreamWrapper\Tests\Assert;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamLockCommand;
+use Codementality\FlysystemStreamWrapper\Tests\Assert;
 use Throwable;
 use function Amp\ParallelFunctions\parallel;
 use function Amp\Promise\all;
@@ -46,10 +46,6 @@ class StreamLockTest extends AbstractStreamCommandTestCase
     /** @medium */
     public function testParallelProcesses(): void
     {
-        if (version_compare(PHP_VERSION, '8.1.0') >= 0) {
-            $this->markTestSkipped('skipped parallel testing of locking for php8.1 till opis/closure is available in version 4.x');
-        }
-
         try {
             $parcel = SharedMemoryParcel::create($id = uniqid('test', true), false);
         } catch (SharedMemoryException|SyncException $e) {

@@ -7,12 +7,12 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Flysystem;
+namespace Codementality\FlysystemStreamWrapper\Flysystem;
 
 use Iterator;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\StorageAttributes;
-use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 use Symfony\Component\Lock\Key;
 
 final class FileData

@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\Helper;
+namespace Codementality\FlysystemStreamWrapper\Tests\Helper;
 
-use M2MTech\FlysystemStreamWrapper\Flysystem\Helper\UserGuesser;
+use Codementality\FlysystemStreamWrapper\Flysystem\Helper\UserGuesser;
 use PHPUnit\Framework\TestCase;
 
 class UserGuesserTest extends TestCase

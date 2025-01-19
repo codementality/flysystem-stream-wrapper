@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests;
+namespace Codementality\FlysystemStreamWrapper\Tests;
 
 use RuntimeException;
 

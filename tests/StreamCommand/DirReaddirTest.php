@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\StreamCommand;
 
 use ArrayIterator;
 use League\Flysystem\DirectoryAttributes;
 use League\Flysystem\FileAttributes;
-use M2MTech\FlysystemStreamWrapper\Flysystem\FileData;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\DirReaddirCommand;
+use Codementality\FlysystemStreamWrapper\Flysystem\FileData;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\DirReaddirCommand;
 use PHPUnit\Framework\TestCase;
 
 class DirReaddirTest extends TestCase

@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\StreamCommand;
 
 use League\Flysystem\Config;
 use League\Flysystem\UnableToCreateDirectory;
 use League\Flysystem\Visibility;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\MkdirCommand;
-use M2MTech\FlysystemStreamWrapper\Tests\Assert;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\MkdirCommand;
+use Codementality\FlysystemStreamWrapper\Tests\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class MkdirTest extends AbstractStreamCommandTestCase

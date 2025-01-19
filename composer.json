@@ -1,5 +1,5 @@
 {
-    "name": "m2mtech/flysystem-stream-wrapper",
+    "name": "codementality/flysystem-stream-wrapper",
     "type": "library",
     "description": "A stream wrapper for Flysystem V2 & V3.",
     "keywords": [
@@ -7,23 +7,18 @@
         "streamwrapper",
         "stream-wrapper"
     ],
-    "homepage": "https://github.com/m2mtech/flysystem-stream-wrapper",
+    "homepage": "https://github.com/codementality/flysystem-stream-wrapper",
     "license": "MIT",
     "authors": [
         {
-            "name": "Martin Mandl",
-            "email": "tech@m2m.at",
-            "homepage": "https://cms.m2m.at",
-            "role": "Developer"
+            "name": "Lisa Ridley",
+            "email": "lisa@codementality.com"
         }
     ],
     "require": {
         "php": "^7.2 || ^8.0",
         "league/flysystem": "^2.3|^3.0",
         "symfony/lock": "^5.3|^6.0|^7.0"
-    },
-    "replace": {
-        "twistor/flysystem-stream-wrapper": "v1.0.9"
     },
     "require-dev": {
         "ext-intl": "*",
@@ -43,12 +38,12 @@
     },
     "autoload": {
         "psr-4": {
-            "M2MTech\\FlysystemStreamWrapper\\": "src"
+            "Codementality\\FlysystemStreamWrapper\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "M2MTech\\FlysystemStreamWrapper\\Tests\\": "tests"
+            "Codementality\\FlysystemStreamWrapper\\Tests\\": "tests"
         }
     },
     "scripts": {

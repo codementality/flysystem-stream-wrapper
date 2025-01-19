@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand;
 
 use League\Flysystem\Config;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\DirectoryExistsException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\UnableToCreateDirectoryException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\FileData;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryExistsException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\UnableToCreateDirectoryException;
+use Codementality\FlysystemStreamWrapper\Flysystem\FileData;
 
 final class MkdirCommand
 {

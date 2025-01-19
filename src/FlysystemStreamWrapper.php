@@ -7,12 +7,12 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper;
+namespace Codementality\FlysystemStreamWrapper;
 
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\Visibility;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Helper\UserGuesser;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamWrapper;
+use Codementality\FlysystemStreamWrapper\Flysystem\Helper\UserGuesser;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamWrapper;
 
 final class FlysystemStreamWrapper
 {

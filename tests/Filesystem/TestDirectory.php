@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\Filesystem;
+namespace Codementality\FlysystemStreamWrapper\Tests\Filesystem;
 
 class TestDirectory extends AbstractTestObject
 {

@@ -7,15 +7,15 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand;
 
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
 use League\Flysystem\WhitespacePathNormalizer;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\CouldNotRemoveDirectoryException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\RootDirectoryException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\FileData;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\CouldNotRemoveDirectoryException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\RootDirectoryException;
+use Codementality\FlysystemStreamWrapper\Flysystem\FileData;
 
 final class RmdirCommand
 {

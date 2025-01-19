@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\FileCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\FileCommand;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
-use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
-use M2MTech\FlysystemStreamWrapper\Tests\Filesystem\TestDirectory;
-use M2MTech\FlysystemStreamWrapper\Tests\Filesystem\TestRootDirectory;
+use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper\Tests\Filesystem\TestDirectory;
+use Codementality\FlysystemStreamWrapper\Tests\Filesystem\TestRootDirectory;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractFileCommandTestCase extends TestCase
