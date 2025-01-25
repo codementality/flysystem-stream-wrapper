@@ -7,12 +7,12 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand;
 
 use League\Flysystem\FilesystemException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\CouldNotDeleteFileException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\FileNotFoundException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\FileData;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\CouldNotDeleteFileException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\FileNotFoundException;
+use Codementality\FlysystemStreamWrapper\Flysystem\FileData;
 
 final class UnlinkCommand
 {

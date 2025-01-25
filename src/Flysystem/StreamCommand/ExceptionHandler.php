@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand;
 
 use League\Flysystem\FilesystemException;
 use Throwable;

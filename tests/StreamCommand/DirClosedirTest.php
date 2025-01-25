@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\StreamCommand;
 
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamWrapper;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamWrapper;
 use PHPUnit\Framework\TestCase;
 
 class DirClosedirTest extends TestCase

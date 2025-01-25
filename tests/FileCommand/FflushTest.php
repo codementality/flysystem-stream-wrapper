@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\FileCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\FileCommand;
 
 use Faker\Factory as Faker;
-use M2MTech\FlysystemStreamWrapper\Tests\Assert;
+use Codementality\FlysystemStreamWrapper\Tests\Assert;
 
 class FflushTest extends AbstractFileCommandTestCase
 {

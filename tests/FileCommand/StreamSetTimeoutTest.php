@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\FileCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\FileCommand;
 
 class StreamSetTimeoutTest extends AbstractFileCommandTestCase
 {

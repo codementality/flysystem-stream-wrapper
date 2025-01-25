@@ -7,14 +7,10 @@
 
 This package provides a stream wrapper for Flysystem V2 & V3.
 
-## Flysystem V1
-
-If you're looking for Flysystem 1.x support, check out the [twistor/flysystem-stream-wrapper](https://github.com/twistor/flysystem-stream-wrapper).
-
 ## Installation
 
 ```bash
-composer require m2mtech/flysystem-stream-wrapper
+composer require codementality/flysystem-stream-wrapper:^3.0
 ```
 
 ## Usage
@@ -22,7 +18,7 @@ composer require m2mtech/flysystem-stream-wrapper
 ```php
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
-use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 
 $filesystem = new Filesystem(new LocalFilesystemAdapter('/some/path'));
 FlysystemStreamWrapper::register('fly', $filesystem);
@@ -120,6 +116,7 @@ If you discover any security vulnerabilities, please follow [our security policy
 
 ## Credits
 
+- This package is a fork of [m2mtech/flysystem-stream-wrapper], with modifications needed specifically for Drupal 10.3+.
 - This package was inspired by [twistor/flysystem-stream-wrapper](https://github.com/twistor/flysystem-stream-wrapper). Many thanks to [Chris Leppanen](https://github.com/twistor).
 - [All Contributors](../../contributors)
 

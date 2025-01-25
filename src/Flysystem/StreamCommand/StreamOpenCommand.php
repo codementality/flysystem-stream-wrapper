@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand;
 
 use League\Flysystem\FilesystemException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\FileNotFoundException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\InvalidStreamModeException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\UnableToReadException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\UnableToWriteException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\FileData;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\FileNotFoundException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\InvalidStreamModeException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\UnableToReadException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\UnableToWriteException;
+use Codementality\FlysystemStreamWrapper\Flysystem\FileData;
 
 final class StreamOpenCommand
 {

@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Flysystem\Helper;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\Helper;
 
 class UserGuesser
 {

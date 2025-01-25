@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\StreamCommand;
 
 use League\Flysystem\FilesystemOperator;
-use M2MTech\FlysystemStreamWrapper\Flysystem\FileData;
-use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper\Flysystem\FileData;
+use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractStreamCommandTestCase extends TestCase

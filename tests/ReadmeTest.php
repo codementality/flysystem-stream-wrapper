@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests;
+namespace Codementality\FlysystemStreamWrapper\Tests;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
-use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 use PHPUnit\Framework\TestCase;
 
 class ReadmeTest extends TestCase

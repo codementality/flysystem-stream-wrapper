@@ -7,17 +7,17 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\Issues;
+namespace Codementality\FlysystemStreamWrapper\Tests\Issues;
 
 use League\Flysystem\UnableToRetrieveMetadata;
 use League\Flysystem\UnableToSetVisibility;
 use League\Flysystem\Visibility;
-use M2MTech\FlysystemStreamWrapper\Flysystem\FileData;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamMetadataCommand;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamStatCommand;
-use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
-use M2MTech\FlysystemStreamWrapper\Tests\Assert;
-use M2MTech\FlysystemStreamWrapper\Tests\StreamCommand\AbstractStreamCommandTestCase;
+use Codementality\FlysystemStreamWrapper\Flysystem\FileData;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamMetadataCommand;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamStatCommand;
+use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper\Tests\Assert;
+use Codementality\FlysystemStreamWrapper\Tests\StreamCommand\AbstractStreamCommandTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use TypeError;
 

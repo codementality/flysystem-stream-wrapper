@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand;
 
 use League\Flysystem\FilesystemException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\StatFailedException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\FileData;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\StatFailedException;
+use Codementality\FlysystemStreamWrapper\Flysystem\FileData;
 
 final class UrlStatCommand
 {

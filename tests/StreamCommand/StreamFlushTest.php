@@ -7,12 +7,12 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\StreamCommand;
 
 use League\Flysystem\UnableToWriteFile;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamWriteCommand;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamWrapper;
-use M2MTech\FlysystemStreamWrapper\Tests\Assert;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamWriteCommand;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamWrapper;
+use Codementality\FlysystemStreamWrapper\Tests\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class StreamFlushTest extends AbstractStreamCommandTestCase

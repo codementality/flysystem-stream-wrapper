@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Flysystem;
+namespace Codementality\FlysystemStreamWrapper\Flysystem;
 
 use League\Flysystem\FilesystemException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\ExceptionHandler;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamWriteCommand;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\ExceptionHandler;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\StreamWriteCommand;
 
 /**
  * @method url_stat(string $path, int $int)

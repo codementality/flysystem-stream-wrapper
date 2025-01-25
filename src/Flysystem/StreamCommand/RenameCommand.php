@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand;
 
 use League\Flysystem\FilesystemException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\FileNotFoundException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\IsDirectoryException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\Exception\IsNotDirectoryException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\FileData;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\FileNotFoundException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\IsDirectoryException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\IsNotDirectoryException;
+use Codementality\FlysystemStreamWrapper\Flysystem\FileData;
 
 final class RenameCommand
 {

@@ -7,15 +7,15 @@
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\FlysystemStreamWrapper\Tests\StreamCommand;
+namespace Codementality\FlysystemStreamWrapper\Tests\StreamCommand;
 
 use League\Flysystem\DirectoryAttributes;
 use League\Flysystem\DirectoryListing;
 use League\Flysystem\FileAttributes;
 use League\Flysystem\FilesystemException;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\DirOpendirCommand;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\DirReaddirCommand;
-use M2MTech\FlysystemStreamWrapper\Flysystem\StreamCommand\DirRewinddirCommand;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\DirOpendirCommand;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\DirReaddirCommand;
+use Codementality\FlysystemStreamWrapper\Flysystem\StreamCommand\DirRewinddirCommand;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class DirRewinddirTest extends AbstractStreamCommandTestCase
