@@ -1,11 +1,14 @@
 # Flysystem Stream Wrapper
 
-[![Author](https://img.shields.io/badge/author-@m2mtech-blue.svg?style=flat-square)](http://www.m2m.at)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+Version 1+ of this package is a forked and updated version of the original package, twistor/flysystem-stream-wrapper. It
+has been updated to run on PHP 8.2+, and unit tests have been uppdated for PHPUnit 11+.
 
----
+Version 3 of this package is a forked and updated version of the original package, `m2mtech/flysystem-stream-wrapper`, which is a fork of `twistor/flysystem-stream-wrapper`, updated to utilize Flysystem version 3.
 
-This package provides a stream wrapper for Flysystem V2 & V3.
+![Status](https://github.com/codementality/flysystem-stream-wrapper/actions/workflows/tests.yml/badge.svg)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Packagist Version](https://img.shields.io/packagist/v/codementality/flysystem-stream-wrapper.svg?style=flat-square)](https://packagist.org/packages/codementality/flysystem-stream-wrapper)
+
 
 ## Installation
 
