@@ -8,13 +8,24 @@ on:
       - 'main'
       - 'v*-branch'
 jobs:
-  build-test:
+  php_unit:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
     steps:
-    - uses: actions/checkout@v3
-    - uses: php-actions/composer@v6 # or alternative dependency management
-    - uses: php-actions/phpunit@v4
-      with:
-        configuration: phpunit.xml
-        version: 11.5.3
-        php_version: 8.3
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@develop
+        with:
+          php-version: 8.3
+          extensions: intl-76.1, pcntl, shmop, sysvmsg
+        env:
+          fail-fast: true
+      # Create new drupal project with Composer install
+      - name: Composer Install
+        run: composer install -o
+      # Run PHP Unit tests
+      - name:  PHP unit tests
+        run: |
+          $(pwd)/vendor/bin/phpunit -c $(pwd)/phpunit.10.xml
