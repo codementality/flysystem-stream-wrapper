@@ -1,8 +1,9 @@
 <?php
 
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Adapter\NullAdapter;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\Filesystem;
+
+//use League\Flysystem\Adapter\Local;
 use Prophecy\Argument;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Stat;
 use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
@@ -34,11 +35,11 @@ class StreamOperationTest extends TestCase {
 
         $this->testDir = __DIR__ . '/testdir';
 
-        $filesystem = new Filesystem(new Local(__DIR__));
+        $filesystem = new Filesystem(new LocalFilesystemAdapter(__DIR__));
         $filesystem->deleteDir('testdir');
         $filesystem->createDir('testdir');
 
-        $local = new Local($this->testDir, \LOCK_EX, 0002, $this->perms);
+        $local = new LocalFilesystemAdapter($this->testDir, \LOCK_EX, 0002, $this->perms);
         $this->filesystem = new Filesystem($local);
         FlysystemStreamWrapper::register('flysystem', $this->filesystem);
     }
@@ -48,7 +49,7 @@ class StreamOperationTest extends TestCase {
         parent::tearDown();
 
         FlysystemStreamWrapper::unregisterAll();
-        $filesystem = new Filesystem(new Local(__DIR__));
+        $filesystem = new Filesystem(new LocalFilesystemAdapter(__DIR__));
         $filesystem->deleteDir('testdir');
     }
 

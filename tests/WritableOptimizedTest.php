@@ -1,6 +1,6 @@
 <?php
 
-use League\Flysystem\Adapter\Local;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\Filesystem;
 use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 
@@ -10,7 +10,7 @@ class WritableOptimizedTest extends StreamOperationTest
     {
         $this->testDir = __DIR__ . '/testdir';
 
-        $filesystem = new Filesystem(new Local(__DIR__));
+        $filesystem = new Filesystem(new LocalFilesystemAdapter(__DIR__));
         $filesystem->deleteDir('testdir');
         $filesystem->createDir('testdir');
 
@@ -20,7 +20,7 @@ class WritableOptimizedTest extends StreamOperationTest
     }
 }
 
-class WritableLocal extends Local
+class WritableLocal extends LocalFilesystemAdapter
 {
     /**
      * {@inheritdoc}
