@@ -1,4 +1,5 @@
-vendor
+vendor/
 coverage
 .phpunit.result.cache
+.phpunit.cache/
 release*.txt
