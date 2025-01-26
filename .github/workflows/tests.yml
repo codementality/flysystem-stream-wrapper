@@ -6,6 +6,7 @@ on:
       - 'feature/*'
       - 'bugfix/*'
       - 'main'
+      - 'v*-branch'
 jobs:
   build-test:
     runs-on: ubuntu-latest
