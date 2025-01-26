@@ -2,9 +2,7 @@
 
 namespace Codementality\FlysystemStreamWrapper\Flysystem\Exception;
 
-use League\Flysystem\Exception;
-
-class TriggerErrorException extends Exception
+class TriggerErrorException extends \RuntimeException
 {
     protected $defaultMessage;
 
