@@ -13,11 +13,12 @@ use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Rmdir;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Stat;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Touch;
 use Codementality\StreamUtil;
+use Drupal\Core\StreamWrapper\PhpStreamWrapperInterface;
 
 /**
  * An adapter for Flysystem to a PHP stream wrapper.
  */
-class FlysystemStreamWrapper
+class FlysystemStreamWrapper implements PhpStreamWrapperInterface
 {
     /**
      * A flag to tell FlysystemStreamWrapper::url_stat() to ignore the size.
@@ -235,12 +236,12 @@ class FlysystemStreamWrapper
         //$filesystem->addPlugin(new Mkdir());
         //$filesystem->addPlugin(new Rmdir());
 
-        $stat = new Stat(
-            static::$config[$protocol]['permissions'],
-            static::$config[$protocol]['metadata']
-        );
+        //$stat = new Stat(
+        //    static::$config[$protocol]['permissions'],
+        //    static::$config[$protocol]['metadata']
+        //);
 
-        $filesystem->addPlugin($stat);
+        //$filesystem->addPlugin($stat);
         //$filesystem->addPlugin(new Touch());
     }
 
@@ -331,7 +332,22 @@ class FlysystemStreamWrapper
     {
         $this->uri = $uri;
 
-        return $this->invoke($this->getFilesystem(), 'mkdir', [$this->getTarget(), $mode, $options]);
+        //$dirname = Util::normalizePath($dirname);
+
+        //$adapter = $this->filesystem->getAdapter();
+
+        // If recursive, or a single level directory, just create it.
+        if (($options & STREAM_MKDIR_RECURSIVE) || strpos($uri, '/') === false) {
+            return (bool) $this->filesystem->createDirectory($uri, $this->defaultConfig());
+        }
+
+        if ( ! $this->filesystem->has(dirname($uri))) {
+            throw new FileNotFoundException($uri);
+        }
+
+        return (bool) $this->fileSystem->createDirectory($uri, $this->defaultConfig());
+
+        //return $this->invoke($this->getFilesystem(), 'mkdir', [$this->getTarget(), $mode, $options]);
     }
 
     /**
@@ -370,7 +386,6 @@ class FlysystemStreamWrapper
         catch (FilesystemException $exception) {
             
         }
-//        return $this->invoke($this->getFilesystem(), 'rmdir', [$this->getTarget(), $options]);
     }
 
     /**
@@ -424,12 +439,12 @@ class FlysystemStreamWrapper
         $this->needsFlush = false;
         $this->bytesWritten = 0;
 
-        // Calling putStream() will rewind our handle. flush() shouldn't change
+        // Calling writeStream() will rewind our handle. flush() shouldn't change
         // the position of the file.
         $pos = ftell($this->handle);
 
         $args = [$this->getTarget(), $this->handle];
-        $success = $this->invoke($this->getFilesystem(), 'putStream', $args, 'fflush');
+        $success = $this->invoke($this->getFilesystem(), 'writeStream', $args, 'fflush');
 
         if (is_resource($this->handle)) {
             fseek($this->handle, $pos);
@@ -1007,14 +1022,14 @@ class FlysystemStreamWrapper
      *   True if successful, False if not.
      */
     protected function touch($path): bool {
-        $path = Util::normalizePath($path);
+        //$path = Util::normalizePath($path);
 
-        $adapter = $this->filesystem->getAdapter();
+        //$adapter = $this->filesystem->getAdapter();
 
-        if ($adapter->has($path)) {
+        if ($this->filesystem->has($path)) {
             return true;
         }
 
-        return (bool) $adapter->write($path, '', $this->defaultConfig());
+        return (bool) $this->filesystem->write($path, '', $this->defaultConfig());
     }
 }
