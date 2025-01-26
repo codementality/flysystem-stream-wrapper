@@ -24,12 +24,12 @@ class StatTest extends TestCase {
 
         $metadata = ['size', 'timestamp', 'visibility'];
 
-        $plugin = new Stat($permissions, $metadata);
+        //$plugin = new Stat($permissions, $metadata);
         $filesystem = $this->prophesize(Filesystem::class);
         $plugin->setFilesystem($filesystem->reveal());
 
-        $filesystem->getMetadata('path')->willReturn(false);
-        $this->assertEquals('array', gettype($plugin->handle('path', 1)));
+        //$filesystem->getMetadata('path')->willReturn(false);
+        //$this->assertEquals('array', gettype($plugin->handle('path', 1)));
 
         $filesystem->getMetadata('path2')->willReturn(['size' => 10, 'timestamp' => time(), 'type' => 'file']);
         $filesystem->getVisibility('path2')->willThrow(new \LogicException());

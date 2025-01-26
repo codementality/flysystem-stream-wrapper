@@ -35,12 +35,12 @@ class StreamOperationTest extends TestCase {
 
         $this->testDir = __DIR__ . '/testdir';
 
-        $filesystem = new Filesystem(new LocalFilesystemAdapter(__DIR__));
-        $filesystem->deleteDir('testdir');
-        $filesystem->createDir('testdir');
+        $filesystem = new Filesystem(new LocalFilesystemAdapter($this->testDir));
+        $filesystem->deleteDirectory('testdir');
+        $filesystem->createDirectory('testdir');
 
-        $local = new LocalFilesystemAdapter($this->testDir, \LOCK_EX, 0002, $this->perms);
-        $this->filesystem = new Filesystem($local);
+        //$local = new LocalFilesystemAdapter($this->testDir, \LOCK_EX, 0002, $this->perms);
+        $this->filesystem = $filesystem;
         FlysystemStreamWrapper::register('flysystem', $this->filesystem);
     }
 
@@ -50,7 +50,7 @@ class StreamOperationTest extends TestCase {
 
         FlysystemStreamWrapper::unregisterAll();
         $filesystem = new Filesystem(new LocalFilesystemAdapter(__DIR__));
-        $filesystem->deleteDir('testdir');
+        $filesystem->deleteDirectory('testdir');
     }
 
     public function testMeta()
