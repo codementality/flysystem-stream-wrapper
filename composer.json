@@ -27,7 +27,8 @@
     },    
     "autoload": {
         "psr-4": {
-            "Codementality\\": ["src/", "vendor/codementality/stream-util/src/"]
+            "Codementality\\FlysystemStreamWrapper\\": ["src/"],
+            "Codementality\\": ["vendor/codementality/stream-util/src/"]
         }
     }
 }

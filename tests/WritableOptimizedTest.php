@@ -2,9 +2,9 @@
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use Codementality\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 
-class WritableOptimzedTest extends StreamOperationTest
+class WritableOptimizedTest extends StreamOperationTest
 {
     public function setUp(): void
     {

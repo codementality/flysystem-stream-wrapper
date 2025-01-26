@@ -6,12 +6,12 @@ use League\Flysystem\AdapterInterface;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Util;
-use Codementality\Flysystem\Exception\TriggerErrorException;
-use Codementality\Flysystem\Plugin\ForcedRename;
-use Codementality\Flysystem\Plugin\Mkdir;
-use Codementality\Flysystem\Plugin\Rmdir;
-use Codementality\Flysystem\Plugin\Stat;
-use Codementality\Flysystem\Plugin\Touch;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\TriggerErrorException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\ForcedRename;
+use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Mkdir;
+use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Rmdir;
+use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Stat;
+use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Touch;
 use Codementality\StreamUtil;
 
 /**

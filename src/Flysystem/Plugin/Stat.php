@@ -3,7 +3,7 @@
 namespace Codementality\FlysystemStreamWrapper\Flysystem\Plugin;
 
 use League\Flysystem\AdapterInterface;
-use Codementality\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 use Codementality\FlysystemStreamWrapper\PosixUid;
 use Codementality\FlysystemStreamWrapper\Uid;
 
