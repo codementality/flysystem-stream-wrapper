@@ -2,9 +2,9 @@
 
 namespace Codementality\FlysystemStreamWrapper;
 
-use League\Flysystem\AdapterInterface;
+use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\FileNotFoundException;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use League\Flysystem\Util;
 use Codementality\FlysystemStreamWrapper\Flysystem\Exception\TriggerErrorException;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\ForcedRename;
@@ -29,7 +29,7 @@ class FlysystemStreamWrapper
     /**
      * The registered filesystems.
      *
-     * @var \League\Flysystem\FilesystemInterface[]
+     * @var \League\Flysystem\FilesystemOperator[]
      */
     protected static $filesystems = [];
 
@@ -70,7 +70,7 @@ class FlysystemStreamWrapper
     /**
      * The filesystem of the current stream wrapper.
      *
-     * @var \League\Flysystem\FilesystemInterface
+     * @var \League\Flysystem\FilesystemOperator
      */
     protected $filesystem;
 
@@ -158,13 +158,13 @@ class FlysystemStreamWrapper
      * Registers the stream wrapper protocol if not already registered.
      *
      * @param string              $protocol      The protocol.
-     * @param FilesystemInterface $filesystem    The filesystem.
+     * @param FilesystemOperator $filesystem    The filesystem.
      * @param array|null          $configuration Optional configuration.
      * @param int                 $flags         Should be set to STREAM_IS_URL if protocol is a URL protocol. Default is 0, local stream.
      *
      * @return bool True if the protocol was registered, false if not.
      */
-    public static function register($protocol, FilesystemInterface $filesystem, array $configuration = null, $flags = 0)
+    public static function register($protocol, FilesystemOperator $filesystem, array $configuration = null, $flags = 0)
     {
         if (static::streamWrapperExists($protocol)) {
             return false;
@@ -228,13 +228,12 @@ class FlysystemStreamWrapper
     /**
      * Registers plugins on the filesystem.
      * @param string $protocol
-     * @param FilesystemInterface $filesystem
+     * @param FilesystemOperator $filesystem
      */
-    protected static function registerPlugins($protocol, FilesystemInterface $filesystem)
+    protected static function registerPlugins($protocol, FilesystemOperator $filesystem)
     {
-        $filesystem->addPlugin(new ForcedRename());
-        $filesystem->addPlugin(new Mkdir());
-        $filesystem->addPlugin(new Rmdir());
+        //$filesystem->addPlugin(new Mkdir());
+        //$filesystem->addPlugin(new Rmdir());
 
         $stat = new Stat(
             static::$config[$protocol]['permissions'],
@@ -242,7 +241,7 @@ class FlysystemStreamWrapper
         );
 
         $filesystem->addPlugin($stat);
-        $filesystem->addPlugin(new Touch());
+        //$filesystem->addPlugin(new Touch());
     }
 
     /**
@@ -347,8 +346,9 @@ class FlysystemStreamWrapper
     {
         $this->uri = $uri_from;
         $args = [$this->getTarget($uri_from), $this->getTarget($uri_to)];
+        $this->getFilesystem()->move($this->getTarget($uri_from), $this->getTarget($uri_to));
 
-        return $this->invoke($this->getFilesystem(), 'forcedRename', $args, 'rename');
+        //return $this->invoke($this->getFilesystem(), 'forcedRename', $args, 'rename');
     }
 
     /**
@@ -363,7 +363,14 @@ class FlysystemStreamWrapper
     {
         $this->uri = $uri;
 
-        return $this->invoke($this->getFilesystem(), 'rmdir', [$this->getTarget(), $options]);
+        try {
+          $this->getFilesystem()->deleteDirectory($uri);
+          return TRUE;
+        }
+        catch (FilesystemException $exception) {
+            
+        }
+//        return $this->invoke($this->getFilesystem(), 'rmdir', [$this->getTarget(), $options]);
     }
 
     /**
@@ -474,7 +481,7 @@ class FlysystemStreamWrapper
             case STREAM_META_ACCESS:
                 $permissions = octdec(substr(decoct($value), -4));
                 $is_public = $permissions & $this->getConfiguration('public_mask');
-                $visibility =  $is_public ? AdapterInterface::VISIBILITY_PUBLIC : AdapterInterface::VISIBILITY_PRIVATE;
+                $visibility =  $is_public ? FilesystemAdapter::VISIBILITY_PUBLIC : FilesystemAdapter::VISIBILITY_PRIVATE;
 
                 try {
                     return $this->getFilesystem()->setVisibility($this->getTarget(), $visibility);
@@ -489,7 +496,7 @@ class FlysystemStreamWrapper
                 return true;
 
             case STREAM_META_TOUCH:
-                return $this->invoke($this->getFilesystem(), 'touch', [$this->getTarget()]);
+                return $this->touch($this->getTarget());
 
             default:
                 return false;
@@ -873,7 +880,7 @@ class FlysystemStreamWrapper
     /**
      * Returns the filesystem.
      *
-     * @return \League\Flysystem\FilesystemInterface The filesystem object.
+     * @return \League\Flysystem\FilesystemOperator The filesystem object.
      */
     protected function getFilesystem()
     {
@@ -989,5 +996,25 @@ class FlysystemStreamWrapper
         $this->lockHandle = null;
 
         return $success;
+    }
+    /**
+     * Emulates "touch".
+     *
+     * @param string $path
+     *   URI to "touch".
+     *
+     * @return bool
+     *   True if successful, False if not.
+     */
+    protected function touch($path): bool {
+        $path = Util::normalizePath($path);
+
+        $adapter = $this->filesystem->getAdapter();
+
+        if ($adapter->has($path)) {
+            return true;
+        }
+
+        return (bool) $adapter->write($path, '', $this->defaultConfig());
     }
 }
