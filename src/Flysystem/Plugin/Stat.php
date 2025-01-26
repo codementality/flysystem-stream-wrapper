@@ -2,12 +2,13 @@
 
 namespace Codementality\FlysystemStreamWrapper\Flysystem\Plugin;
 
-use League\Flysystem\AdapterInterface;
+use League\Flysystem\FilesystemAdapter;
+Use League\Flysystem\FilesystemOperator;
 use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 use Codementality\FlysystemStreamWrapper\PosixUid;
 use Codementality\FlysystemStreamWrapper\Uid;
 
-class Stat extends AbstractPlugin
+class Stat
 {
     /**
      * Default return value of url_stat().
@@ -50,6 +51,11 @@ class Stat extends AbstractPlugin
     protected $uid;
 
     /**
+     * @var FilesystemOperator
+     */
+    protected $filesystem;
+
+    /**
      * Constructs a Stat object.
      *
      * @param array $permissions An array of permissions.
@@ -85,7 +91,7 @@ class Stat extends AbstractPlugin
     public function handle($path, $flags)
     {
         if ($path === '') {
-            return $this->mergeMeta(['type' => 'dir', 'visibility' => AdapterInterface::VISIBILITY_PUBLIC]);
+            return $this->mergeMeta(['type' => 'dir', 'visibility' => FilesystemAdapter::VISIBILITY_PUBLIC]);
         }
 
         $ignore = $flags & FlysystemStreamWrapper::STREAM_URL_IGNORE_SIZE ? ['size'] : [];
@@ -97,7 +103,7 @@ class Stat extends AbstractPlugin
             return static::$defaultMeta;
         }
 
-        return $this->mergeMeta($metadata + ['visibility' => AdapterInterface::VISIBILITY_PUBLIC]);
+        return $this->mergeMeta($metadata + ['visibility' => FilesystemAdapter::VISIBILITY_PUBLIC]);
     }
 
     /**
@@ -189,8 +195,8 @@ class Stat extends AbstractPlugin
         $ret['mode'] = $metadata['type'] === 'dir' ? 040000 : 0100000;
         
         $visibility = $metadata['visibility'];
-        if ($visibility != AdapterInterface::VISIBILITY_PUBLIC && $visibility != AdapterInterface::VISIBILITY_PRIVATE) {
-          $visibility = $this->normalizePermissions($visibility) & 0044 ? AdapterInterface::VISIBILITY_PUBLIC : AdapterInterface::VISIBILITY_PRIVATE;
+        if ($visibility != FilesystemAdapter::VISIBILITY_PUBLIC && $visibility != FilesystemAdapter::VISIBILITY_PRIVATE) {
+          $visibility = $this->normalizePermissions($visibility) & 0044 ? FilesystemAdapter::VISIBILITY_PUBLIC : FilesystemAdapter::VISIBILITY_PRIVATE;
         }
 
         $ret['mode'] += $this->permissions[$metadata['type']][$visibility];
@@ -206,5 +212,15 @@ class Stat extends AbstractPlugin
         $ret['atime'] = time();
 
         return array_merge(array_values($ret), $ret);
+    }
+
+    /**
+     * Set the Filesystem object.
+     *
+     * @param FilesystemOperator $filesystem
+     */
+    public function setFilesystem(FilesystemOperator $filesystem)
+    {
+        $this->filesystem = $filesystem;
     }
 }
