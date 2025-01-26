@@ -1,12 +1,12 @@
 <?php
 
-namespace Codementality\Flysystem\Plugin;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\Plugin;
 
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Util;
-use Codementality\Flysystem\Exception\DirectoryExistsException;
-use Codementality\Flysystem\Exception\DirectoryNotEmptyException;
-use Codementality\Flysystem\Exception\NotADirectoryException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryExistsException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\NotADirectoryException;
 
 class ForcedRename extends AbstractPlugin
 {
@@ -27,9 +27,9 @@ class ForcedRename extends AbstractPlugin
      * @return bool
      *
      * @throws \League\Flysystem\FileNotFoundException
-     * @throws \Codementality\Flysystem\Exception\DirectoryExistsException
-     * @throws \Codementality\Flysystem\Exception\DirectoryNotEmptyException
-     * @throws \Codementality\Flysystem\Exception\NotADirectoryException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryExistsException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\NotADirectoryException
      */
     public function handle($path, $newpath)
     {
@@ -58,9 +58,9 @@ class ForcedRename extends AbstractPlugin
      * @return bool
      *
      * @throws \League\Flysystem\FileNotFoundException
-     * @throws \Codementality\Flysystem\Exception\DirectoryExistsException
-     * @throws \Codementality\Flysystem\Exception\DirectoryNotEmptyException
-     * @throws \Codementality\Flysystem\Exception\NotADirectoryException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryExistsException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\NotADirectoryException
      */
     protected function isValidRename($source, $dest)
     {
@@ -91,9 +91,9 @@ class ForcedRename extends AbstractPlugin
      *
      * @return bool
      *
-     * @throws \Codementality\Flysystem\Exception\DirectoryExistsException
-     * @throws \Codementality\Flysystem\Exception\DirectoryNotEmptyException
-     * @throws \Codementality\Flysystem\Exception\NotADirectoryException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryExistsException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\NotADirectoryException
      */
     protected function compareTypes($source, $dest)
     {

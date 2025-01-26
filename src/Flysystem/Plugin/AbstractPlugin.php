@@ -1,6 +1,6 @@
 <?php
 
-namespace Codementality\Flysystem\Plugin;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\Plugin;
 
 use League\Flysystem\Config;
 use League\Flysystem\Plugin\AbstractPlugin as FlysystemPlugin;

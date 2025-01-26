@@ -1,6 +1,6 @@
 <?php
 
-namespace Codementality\Flysystem\Exception;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\Exception;
 
 class NotADirectoryException extends TriggerErrorException
 {

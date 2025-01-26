@@ -4,8 +4,8 @@ use League\Flysystem\Adapter\Local;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
 use Prophecy\Argument;
-use Codementality\Flysystem\Plugin\Stat;
-use Codementality\FlysystemStreamWrapper;
+use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Stat;
+use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 

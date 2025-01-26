@@ -1,6 +1,6 @@
 <?php
 
-use Codementality\Uid;
+use Codementality\FlysystemStreamWrapper\Uid;
 use PHPUnit\Framework\TestCase;
 
 class UidTest extends TestCase {

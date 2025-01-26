@@ -1,6 +1,6 @@
 <?php
 
-namespace Codementality;
+namespace Codementality\FlysystemStreamWrapper;
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FileNotFoundException;

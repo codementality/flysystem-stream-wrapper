@@ -1,6 +1,6 @@
 <?php
 
-namespace Codementality\Flysystem\Plugin;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\Plugin;
 
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Util;

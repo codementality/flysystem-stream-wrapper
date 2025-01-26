@@ -2,7 +2,7 @@
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Filesystem;
-use Codementality\Flysystem\Plugin\Rmdir;
+use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Rmdir;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 

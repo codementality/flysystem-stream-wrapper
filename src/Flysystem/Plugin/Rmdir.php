@@ -1,10 +1,10 @@
 <?php
 
-namespace Codementality\Flysystem\Plugin;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\Plugin;
 
 use League\Flysystem\RootViolationException;
 use League\Flysystem\Util;
-use Codementality\Flysystem\Exception\DirectoryNotEmptyException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException;
 
 class Rmdir extends AbstractPlugin
 {
@@ -24,7 +24,7 @@ class Rmdir extends AbstractPlugin
      *
      * @return bool
      *
-     * @throws \Codementality\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException
      */
     public function handle($dirname, $options)
     {

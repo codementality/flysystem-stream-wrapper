@@ -1,6 +1,6 @@
 <?php
 
-namespace Codementality\Flysystem\Exception;
+namespace Codementality\FlysystemStreamWrapper\Flysystem\Exception;
 
 use League\Flysystem\Exception;
 

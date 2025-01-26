@@ -1,6 +1,6 @@
 <?php
 
-namespace Codementality;
+namespace Codementality\FlysystemStreamWrapper;
 
 class Uid
 {
