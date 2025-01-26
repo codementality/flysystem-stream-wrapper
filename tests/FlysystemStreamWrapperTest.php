@@ -1,15 +1,16 @@
 <?php
 
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Adapter\NullAdapter;
+use League\Flysystem\FileAttributes;
 use League\Flysystem\Filesystem;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 use PHPUnit\Framework\TestCase;
 
 class FlysystemStreamWrapperTest extends TestCase {
     public function testRegister()
     {
-        $filesystem = new Filesystem(new NullAdapter());
+        $filesystem = new Filesystem(new InMemoryFilesystemAdapter());
         $this->assertTrue(FlysystemStreamWrapper::register('test', $filesystem));
 
         $this->assertTrue(in_array('test', stream_get_wrappers(), true));
@@ -40,7 +41,7 @@ class FlysystemStreamWrapperTest extends TestCase {
 
     public function testGetRegisteredProtocols()
     {
-        $filesystem = new Filesystem(new NullAdapter());
+        $filesystem = new Filesystem(new InMemoryFilesystemAdapter());
         FlysystemStreamWrapper::register('test1', $filesystem);
         FlysystemStreamWrapper::register('test2', $filesystem);
 
@@ -49,7 +50,7 @@ class FlysystemStreamWrapperTest extends TestCase {
 
     public function testUnregisterAll()
     {
-        $filesystem = new Filesystem(new NullAdapter());
+        $filesystem = new Filesystem(new InMemoryFilesystemAdapter());
         FlysystemStreamWrapper::register('test1', $filesystem);
         FlysystemStreamWrapper::register('test2', $filesystem);
 
@@ -71,14 +72,14 @@ class FlysystemStreamWrapperTest extends TestCase {
 /**
  * An alternate version of the local adapter that doesn't support visibility.
  */
-class NoVisibilityLocal extends Local
+class NoVisibilityLocal extends LocalFilesystemAdapter
 {
-    public function getVisibility($path)
+    public function visibility($path): FileAttributes
     {
         throw new \LogicException();
     }
 
-    public function setVisibility($path, $visibility)
+    public function setVisibility($path, $visibility): void
     {
         throw new \LogicException();
     }
