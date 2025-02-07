@@ -5,7 +5,6 @@ namespace Codementality\FlysystemStreamWrapper;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
-use League\Flysystem\Util;
 use Codementality\FlysystemStreamWrapper\Flysystem\Exception\TriggerErrorException;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\ForcedRename;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Mkdir;
@@ -268,7 +267,7 @@ class FlysystemStreamWrapper
     {
         $this->uri = $uri;
 
-        $path = Util::normalizePath($this->getTarget());
+        $path = $this->normalizePath($this->getTarget());
 
         $this->listing = $this->invoke($this->getFilesystem(), 'listContents', [$path], 'opendir');
 
@@ -963,7 +962,7 @@ class FlysystemStreamWrapper
         // Normalize paths so that locks are consistent.
         // We are using sha1() to avoid the file name limits, and case
         // insensitivity on Windows. This is not security sensitive.
-        $lock_key = sha1(Util::normalizePath($this->getTarget()));
+        $lock_key = sha1($this->normalizePath($this->getTarget()));
 
         // Relay the lock to a real filesystem lock.
         return fopen($temp_dir . '/' . $lock_key, 'c');
@@ -1197,6 +1196,64 @@ class FlysystemStreamWrapper
     public function modeIsAppendOnly($mode)
     {
         return $mode[0] === 'a' && strpos($mode, '+') === false;
+    }
+
+   /**
+     * Removes unprintable characters and invalid unicode characters.
+     *
+     * @param string $path
+     *
+     * @return string $path
+     */
+    protected function removeFunkyWhiteSpace($path)
+    {
+        // We do this check in a loop, since removing invalid unicode characters
+        // can lead to new characters being created.
+        while (preg_match('#\p{C}+|^\./#u', $path)) {
+            $path = preg_replace('#\p{C}+|^\./#u', '', $path);
+        }
+
+        return $path;
+    }
+
+    /**
+     * Normalize relative directories in a path.
+     *
+     * @param string $path
+     *
+     * @throws LogicException
+     *
+     * @return string
+     */
+    protected function normalizePath($path)
+    {
+        $path = str_replace('\\', '/', $path);
+        $path = $this->removeFunkyWhiteSpace($path);
+
+        $parts = [];
+
+        foreach (explode('/', $path) as $part) {
+            switch ($part) {
+                case '':
+                case '.':
+                break;
+
+            case '..':
+                if (empty($parts)) {
+                    throw new LogicException(
+                        'Path is outside of the defined root, path: [' . $path . ']'
+                    );
+                }
+                array_pop($parts);
+                break;
+
+            default:
+                $parts[] = $part;
+                break;
+            }
+        }
+
+        return implode('/', $parts);
     }
 
 }
