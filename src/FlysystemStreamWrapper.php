@@ -3,6 +3,7 @@
 namespace Codementality\FlysystemStreamWrapper;
 
 use League\Flysystem\AdapterInterface;
+use League\Flysystem\Config;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use Codementality\FlysystemStreamWrapper\Flysystem\Exception\TriggerErrorException;
@@ -10,7 +11,6 @@ use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\ForcedRename;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Mkdir;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Rmdir;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Stat;
-use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Touch;
 
 /**
  * An adapter for Flysystem to a PHP stream wrapper.
@@ -240,7 +240,6 @@ class FlysystemStreamWrapper
         );
 
         $filesystem->addPlugin($stat);
-        $filesystem->addPlugin(new Touch());
     }
 
     /**
@@ -487,7 +486,7 @@ class FlysystemStreamWrapper
                 return true;
 
             case STREAM_META_TOUCH:
-                return $this->invoke($this->getFilesystem(), 'touch', [$this->getTarget()]);
+                return $this->touch($this->getTarget());
 
             default:
                 return false;
@@ -1256,4 +1255,34 @@ class FlysystemStreamWrapper
         return implode('/', $parts);
     }
 
+    /**
+     * Emulates touch().
+     *
+     * @param string $path
+     *
+     * @return bool True on success, false on failure.
+     */
+    public function touch($path)
+    {
+        $path = $this->normalizePath($path);
+
+        $adapter = $this->getFilesystem()->getAdapter();
+
+        if ($adapter->has($path)) {
+            return true;
+        }
+
+        return (bool) $adapter->write($path, '', $this->defaultConfig());
+    }
+
+    /**
+     * Gets default configuration for Filesystem object.
+     */
+    protected function defaultConfig()
+    {
+        $config = new Config();
+        $config->setFallback($this->getFilesystem()->getConfig());
+
+        return $config;
+    }
 }

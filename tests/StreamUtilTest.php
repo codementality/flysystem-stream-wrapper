@@ -26,7 +26,6 @@ class StreamUtilTest extends \PHPUnit\Framework\TestCase
     {
         fseek($this->stream, 2);
 
-        //$cloned = StreamUtil::copy($this->stream, false);
         $cloned = $this->streamWrapper->copy($this->stream, false);
 
         // Test seeking, and not closing.
