@@ -12,7 +12,6 @@ use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Mkdir;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Rmdir;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Stat;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Touch;
-use Codementality\StreamUtil;
 
 /**
  * An adapter for Flysystem to a PHP stream wrapper.
@@ -511,9 +510,9 @@ class FlysystemStreamWrapper
         $this->uri = $uri;
         $path = $this->getTarget();
 
-        $this->isReadOnly = StreamUtil::modeIsReadOnly($mode);
-        $this->isWriteOnly = StreamUtil::modeIsWriteOnly($mode);
-        $this->isAppendMode = StreamUtil::modeIsAppendable($mode);
+        $this->isReadOnly = $this->modeIsReadOnly($mode);
+        $this->isWriteOnly = $this->modeIsWriteOnly($mode);
+        $this->isAppendMode = $this->modeIsAppendable($mode);
 
         $this->handle = $this->invoke($this, 'getStream', [$path, $mode], 'fopen');
 
@@ -609,7 +608,7 @@ class FlysystemStreamWrapper
 
         // Use the size of our handle, since it could have been written to or
         // truncated.
-        $stat['size'] = $stat[7] = StreamUtil::getSize($this->handle);
+        $stat['size'] = $stat[7] = $this->getSize($this->handle);
 
         return $stat;
     }
@@ -663,7 +662,7 @@ class FlysystemStreamWrapper
 
         // Enforce append semantics.
         if ($this->isAppendMode) {
-            StreamUtil::trySeek($this->handle, 0, SEEK_END);
+            $this->trySeek($this->handle, 0, SEEK_END);
         }
 
         $written = fwrite($this->handle, $data);
@@ -784,7 +783,7 @@ class FlysystemStreamWrapper
     protected function getAppendStream($path)
     {
         if ($handle = $this->getWritableStream($path)) {
-            StreamUtil::trySeek($handle, 0, SEEK_END);
+            $this->trySeek($handle, 0, SEEK_END);
         }
 
         return $handle;
@@ -823,11 +822,11 @@ class FlysystemStreamWrapper
 
         $this->needsCowCheck = false;
 
-        if (StreamUtil::isWritable($this->handle)) {
+        if ($this->isWritable($this->handle)) {
             return;
         }
 
-        $this->handle = StreamUtil::copy($this->handle);
+        $this->handle = $this->copy($this->handle);
     }
 
     /**
@@ -990,4 +989,214 @@ class FlysystemStreamWrapper
 
         return $success;
     }
+
+    /**
+     * Returns whether a mode is read only.
+     *
+     * @param string $mode The mode string.
+     *
+     * @return bool True if read only, false if not.
+     */
+    public function modeIsReadOnly($mode)
+    {
+        return $mode[0] === 'r' && strpos($mode, '+') === false;
+    }
+
+    /**
+     * Returns whether a mode is write only.
+     *
+     * @param string $mode The mode string.
+     *
+     * @return bool True if write only, false if not.
+     */
+    public function modeIsWriteOnly($mode)
+    {
+        return $this->modeIsWritable($mode) && !$this->modeIsReadable($mode);
+    }
+
+    /**
+     * Returns whether a mode is writable.
+     *
+     * @param string $mode The mode string.
+     *
+     * @return bool True if writable, false if not.
+     */
+    protected function modeIsWritable($mode)
+    {
+        return !$this->modeIsReadOnly($mode);
+    }
+
+    /**
+     * Returns whether a mode is readable.
+     *
+     * @param string $mode The mode string.
+     *
+     * @return bool True if readable, false if not.
+     */
+    protected function modeIsReadable($mode)
+    {
+        return $mode[0] === 'r' || strpos($mode, '+') !== false;
+    }
+
+    /**
+     * Returns whether a mode is appendable.
+     *
+     * @param string $mode The mode string.
+     *
+     * @return bool True if appendable, false if not.
+     */
+    protected function modeIsAppendable($mode)
+    {
+        return $mode[0] === 'a';
+    }
+
+    /**
+     * Returns a key from stream_get_meta_data().
+     *
+     * @param resource $stream The stream.
+     * @param string   $key    The key to return.
+     *
+     * @return mixed The value from stream_get_meta_data().
+     *
+     * @see stream_get_meta_data()
+     */
+    protected function getMetaDataKey($stream, $key)
+    {
+        $meta = stream_get_meta_data($stream);
+
+        return isset($meta[$key]) ? $meta[$key] : null;
+    }
+
+    /**
+     * Returns the size of a stream.
+     *
+     * If the size is 0, it could mean that the stream isn't reporting its size.
+     *
+     * @param resource $stream The stream.
+     *
+     * @return int|false The size of the stream, or false if it cannot be retrieved.
+     */
+    public function getSize($stream)
+    {
+        $stat = stream_get_meta_data($stream);
+        if ($stat === FALSE) {
+            return FALSE;
+        }
+        switch ($stat['wrapper_type']) {
+            case 'plainfile':
+            case 'PHP':
+                $stats = fstat($stream);
+                return is_array($stats) && isset($stats['size']) ? $stats['size'] : FALSE;
+                break;
+            case 'http':
+                stream_context_set_default(['http' => ['method' => 'HEAD']]);
+                $head = array_change_key_case(get_headers($stat['uri'], 1));
+                return $head['content-length'] ?? FALSE;
+                break;
+            //@todo:  Add logic for other wrapper types
+            default:
+                return FALSE;
+        }
+    }
+
+    /**
+     * Returns whether the stream is seekable.
+     *
+     * @param resource $stream The stream.
+     *
+     * @return bool True if seekable, false if not.
+     */
+    protected function isSeekable($stream)
+    {
+        return (bool) $this->getMetaDataKey($stream, 'seekable');
+    }
+
+    /**
+     * Tries to seek a stream.
+     *
+     * @param resource $stream The stream.
+     * @param int      $offset The offset.
+     * @param int      $whence One of SEEK_SET, SEEK_CUR, SEEK_END.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @see fseek()
+     */
+    public function trySeek($stream, $offset, $whence = SEEK_SET)
+    {
+        $offset = (int) $offset;
+
+        // If SEEK_SET, we can avoid a seek if we're at the right location.
+        if ($whence === SEEK_SET && ftell($stream) === $offset) {
+            return true;
+        }
+
+        return $this->isSeekable($stream) && fseek($stream, $offset, $whence) === 0;
+    }
+
+    /**
+     * Returns whether the stream is writable.
+     *
+     * @param resource $stream The stream.
+     *
+     * @return bool True if writable, false if not.
+     */
+    public function isWritable($stream)
+    {
+        return $this->modeIsWritable($this->getMetaDataKey($stream, 'mode'));
+    }
+
+    /**
+     * Copies a stream.
+     *
+     * @param resource $stream The stream to copy.
+     * @param bool     $close  Whether to close the input stream.
+     *
+     * @return resource The copied stream.
+     */
+    public function copy($stream, $close = true)
+    {
+        $cloned = fopen('php://temp', 'w+b');
+        $pos = ftell($stream);
+
+        $this->tryRewind($stream);
+        stream_copy_to_stream($stream, $cloned);
+
+        if ($close) {
+            fclose($stream);
+        } else {
+            $this->trySeek($stream, $pos);
+        }
+
+        fseek($cloned, $pos);
+
+        return $cloned;
+    }
+
+    /**
+     * Tries to rewind a stream.
+     *
+     * @param resource $stream The stream.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @see rewind()
+     */
+    public function tryRewind($stream)
+    {
+        return ftell($stream) === 0 || $this->isSeekable($stream) && rewind($stream);
+    }
+
+    /**
+     * Returns whether a mode is append only.
+     *
+     * @param string $mode The mode string.
+     *
+     * @return bool True if append only, false if not.
+     */
+    public function modeIsAppendOnly($mode)
+    {
+        return $mode[0] === 'a' && strpos($mode, '+') === false;
+    }
+
 }
