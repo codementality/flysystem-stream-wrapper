@@ -255,18 +255,25 @@ class FlysystemStreamWrapper
     /**
      * Opens a directory handle.
      *
-     * @param string $uri     The URL that was passed to opendir().
-     * @param int    $options Whether or not to enforce safe_mode (0x04).
+     * @param string $uri
+     *   The URL that was passed to opendir().
+     * @param int $options
+     *   Whether or not to enforce safe_mode (0x04).
      *
-     * @return bool True on success, false on failure.
+     * @return bool
+     *   True on success, false on failure.
      */
-    public function dir_opendir($uri, $options)
-    {
+    public function dir_opendir($uri, $options) {
         $this->uri = $uri;
 
         $path = $this->normalizePath($this->getTarget());
-
-        $this->listing = $this->invoke($this->getFilesystem(), 'listContents', [$path], 'opendir');
+        try {
+            $this->listing = $this->getFilesystem()->listContents($path);
+        } catch (\Exception $e) {
+            $errorname = 'opendir';
+            $this->triggerError($errorname, $e);
+            $this->listing = false;
+        }
 
         if ($this->listing === false) {
             return false;
@@ -292,10 +299,10 @@ class FlysystemStreamWrapper
     /**
      * Reads an entry from directory handle.
      *
-     * @return string|bool The next filename, or false if there is no next file.
+     * @return string|bool
+     *   The next filename, or false if there is no next file.
      */
-    public function dir_readdir()
-    {
+    public function dir_readdir() {
         $current = current($this->listing);
         next($this->listing);
 
@@ -305,10 +312,10 @@ class FlysystemStreamWrapper
     /**
      * Rewinds the directory handle.
      *
-     * @return bool True on success, false on failure.
+     * @return bool
+     *   True on success, false on failure.
      */
-    public function dir_rewinddir()
-    {
+    public function dir_rewinddir() {
         reset($this->listing);
 
         return true;
@@ -318,24 +325,24 @@ class FlysystemStreamWrapper
      * Creates a directory.
      *
      * @param string $uri
-     * @param int    $mode
-     * @param int    $options
+     * @param int $mode
+     * @param int $options
      *
-     * @return bool True on success, false on failure.
+     * @return bool
+     *   True on success, false on failure.
      */
-    public function mkdir($uri, $mode, $options)
-    {
+    public function mkdir($uri, $mode, $options) {
         $this->uri = $uri;
         try {
             $dirname = $this->normalizePath($this->getTarget());
-            $adapter = $this->getFilesystem()->getAdapter();
+            $filesystem = $this->getFilesystem();
             if (($options & STREAM_MKDIR_RECURSIVE) || strpos($dirname, '/') === false) {
-                return (bool) $adapter->createDir($dirname, $this->defaultConfig());
+                return (bool) $filesystem->createDir($dirname, (array) $this->defaultConfig());
             }
-            if ( ! $adapter->has(dirname($dirname))) {
+            if ( ! $filesystem->has(dirname($dirname))) {
                 throw new FileNotFoundException($dirname);
             }
-            return (bool) $adapter->createDir($dirname, $this->defaultConfig());
+            return (bool) $filesystem->createDir($dirname, (array) $this->defaultConfig());
         } catch (\Exception $e) {
             $this->triggerError(__FUNCTION__, $e);
         }
@@ -368,7 +375,7 @@ class FlysystemStreamWrapper
                 return false;
             }
 
-            return (bool) $this->getFilesystem()->getAdapter()->rename($path, $newpath);
+            return (bool) $this->getFilesystem()->rename($path, $newpath);
         } catch (\Exception $e) {
             $this->triggerError(__FUNCTION__, $e);
         }
@@ -394,20 +401,20 @@ class FlysystemStreamWrapper
                 throw new RootViolationException('Root directories can not be deleted.');
             }
     
-            $adapter = $this->getFilesystem()->getAdapter();
+            $filesystem = $this->getFilesystem();
     
             if ($options & STREAM_MKDIR_RECURSIVE) {
                 // I don't know how this gets triggered.
-                return (bool) $adapter->deleteDir($dirname);
+                return (bool) $filesystem->deleteDir($dirname);
             }
     
-            $contents = $this->getFilesystem()->listContents($dirname);
+            $contents = $filesystem->listContents($dirname);
     
             if ( ! empty($contents)) {
                 throw new DirectoryNotEmptyException();
             }
     
-            return (bool) $adapter->deleteDir($dirname);
+            return (bool) $filesystem->deleteDir($dirname);
         } catch (\Exception $e) {
             $this->triggerError(__FUNCTION__, $e);
         }
@@ -470,7 +477,13 @@ class FlysystemStreamWrapper
         $pos = ftell($this->handle);
 
         $args = [$this->getTarget(), $this->handle];
-        $success = $this->invoke($this->getFilesystem(), 'putStream', $args, 'fflush');
+        try {
+            $success = $this->getFilesystem()->putStream($this->getTarget(), $this->handle);
+        } catch (\Exception $e) {
+            $errorname = 'fflush';
+            $this->triggerError($errorname, $e);
+            $success = false;
+        }
 
         if (is_resource($this->handle)) {
             fseek($this->handle, $pos);
@@ -562,8 +575,14 @@ class FlysystemStreamWrapper
         $this->isReadOnly = $this->modeIsReadOnly($mode);
         $this->isWriteOnly = $this->modeIsWriteOnly($mode);
         $this->isAppendMode = $this->modeIsAppendable($mode);
-
-        $this->handle = $this->invoke($this, 'getStream', [$path, $mode], 'fopen');
+        
+        try {
+            $this->handle = $this->getStream($path, $mode);
+        } catch (\Exception $e) {
+            $errorname = 'fopen';
+            $this->triggerError($errorname, $e);
+            $this->handle = false;
+        }
 
         if ($this->handle && $options & STREAM_USE_PATH) {
             $opened_path = $path;
@@ -734,8 +753,17 @@ class FlysystemStreamWrapper
     public function unlink($uri)
     {
         $this->uri = $uri;
+        try {
+            
+            return $this->getFilesystem()->delete($this->getTarget());
+        } catch (\Exception $e) {
+            $errorname = 'unlink';
+            $this->triggerError($errorname, $e);
+            return false;
+        }
 
-        return $this->invoke($this->getFilesystem(), 'delete', [$this->getTarget()], 'unlink');
+        return false;
+
     }
 
     /**
@@ -932,28 +960,6 @@ class FlysystemStreamWrapper
         $this->filesystem = static::$filesystems[$this->getProtocol()];
 
         return $this->filesystem;
-    }
-
-    /**
-     * Calls a method on an object, catching any exceptions.
-     *
-     * @param object      $object    The object to call the method on.
-     * @param string      $method    The method name.
-     * @param array       $args      The arguments to the method.
-     * @param string|null $errorname The name of the calling function.
-     *
-     * @return mixed|false The return value of the call, or false on failure.
-     */
-    protected function invoke($object, $method, array $args, $errorname = null)
-    {
-        try {
-            return call_user_func_array([$object, $method], $args);
-        } catch (\Exception $e) {
-            $errorname = $errorname ?: $method;
-            $this->triggerError($errorname, $e);
-        }
-
-        return false;
     }
 
     /**
@@ -1317,13 +1323,13 @@ class FlysystemStreamWrapper
     {
         $path = $this->normalizePath($path);
 
-        $adapter = $this->getFilesystem()->getAdapter();
+        $filesystem = $this->getFilesystem();
 
-        if ($adapter->has($path)) {
+        if ($filesystem->has($path)) {
             return true;
         }
 
-        return (bool) $adapter->write($path, '', $this->defaultConfig());
+        return (bool) $filesystem->write($path, '', (array) $this->defaultConfig());
     }
 
     /**
