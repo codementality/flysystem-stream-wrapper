@@ -6,9 +6,10 @@ use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\RootViolationException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException;
 use Codementality\FlysystemStreamWrapper\Flysystem\Exception\TriggerErrorException;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\ForcedRename;
-use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Rmdir;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Stat;
 
 /**
@@ -230,7 +231,6 @@ class FlysystemStreamWrapper
     protected static function registerPlugins($protocol, FilesystemInterface $filesystem)
     {
         $filesystem->addPlugin(new ForcedRename());
-        $filesystem->addPlugin(new Rmdir());
 
         $stat = new Stat(
             static::$config[$protocol]['permissions'],
@@ -369,8 +369,31 @@ class FlysystemStreamWrapper
     public function rmdir($uri, $options)
     {
         $this->uri = $uri;
+        try {
+            $dirname = $this->normalizePath($this->getTarget());
 
-        return $this->invoke($this->getFilesystem(), 'rmdir', [$this->getTarget(), $options]);
+            if ($dirname === '') {
+                throw new RootViolationException('Root directories can not be deleted.');
+            }
+    
+            $adapter = $this->getFilesystem()->getAdapter();
+    
+            if ($options & STREAM_MKDIR_RECURSIVE) {
+                // I don't know how this gets triggered.
+                return (bool) $adapter->deleteDir($dirname);
+            }
+    
+            $contents = $this->getFilesystem()->listContents($dirname);
+    
+            if ( ! empty($contents)) {
+                throw new DirectoryNotEmptyException();
+            }
+    
+            return (bool) $adapter->deleteDir($dirname);
+        } catch (\Exception $e) {
+            $this->triggerError(__FUNCTION__, $e);
+        }
+        return false;
     }
 
     /**
