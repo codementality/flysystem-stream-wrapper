@@ -7,9 +7,10 @@ use League\Flysystem\Config;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\RootViolationException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryExistsException;
 use Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException;
+use Codementality\FlysystemStreamWrapper\Flysystem\Exception\NotADirectoryException;
 use Codementality\FlysystemStreamWrapper\Flysystem\Exception\TriggerErrorException;
-use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\ForcedRename;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Stat;
 
 /**
@@ -230,7 +231,6 @@ class FlysystemStreamWrapper
      */
     protected static function registerPlugins($protocol, FilesystemInterface $filesystem)
     {
-        $filesystem->addPlugin(new ForcedRename());
 
         $stat = new Stat(
             static::$config[$protocol]['permissions'],
@@ -353,9 +353,27 @@ class FlysystemStreamWrapper
     public function rename($uri_from, $uri_to)
     {
         $this->uri = $uri_from;
-        $args = [$this->getTarget($uri_from), $this->getTarget($uri_to)];
 
-        return $this->invoke($this->getFilesystem(), 'forcedRename', $args, 'rename');
+        try {
+            $path = $this->normalizePath($this->getTarget($uri_from));
+            $newpath = $this->normalizePath($this->getTarget($uri_to));
+
+            // Ignore useless renames.
+            if ($path === $newpath) {
+                return true;
+            }
+
+            if ( ! $this->isValidRename($path, $newpath)) {
+                // Returns false if a Flysystem call fails.
+                return false;
+            }
+
+            return (bool) $this->getFilesystem()->getAdapter()->rename($path, $newpath);
+        } catch (\Exception $e) {
+            $this->triggerError(__FUNCTION__, $e);
+        }
+        return false;
+
     }
 
     /**
@@ -1318,4 +1336,84 @@ class FlysystemStreamWrapper
 
         return $config;
     }
+
+    /**
+     * Checks that a rename is valid.
+     *
+     * @param string $source
+     * @param string $dest
+     *
+     * @return bool
+     *
+     * @throws \League\Flysystem\FileNotFoundException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryExistsException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\NotADirectoryException
+     */
+    protected function isValidRename($source, $dest)
+    {
+        $adapter = $this->getFilesystem()->getAdapter();
+
+        if ( ! $adapter->has($source)) {
+            throw new FileNotFoundException($source);
+        }
+
+        $subdir = dirname($dest === '.' ? '' : $dest);
+
+        if (strlen($subdir) && ! $adapter->has($subdir)) {
+            throw new FileNotFoundException($source);
+        }
+
+        if ( ! $adapter->has($dest)) {
+            return true;
+        }
+
+        return $this->compareTypes($source, $dest);
+    }
+
+    /**
+     * Compares the file/dir for the source and dest.
+     *
+     * @param string $source
+     * @param string $dest
+     *
+     * @return bool
+     *
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryExistsException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\DirectoryNotEmptyException
+     * @throws \Codementality\FlysystemStreamWrapper\Flysystem\Exception\NotADirectoryException
+     */
+    protected function compareTypes($source, $dest)
+    {
+        $adapter = $this->getFilesystem()->getAdapter();
+
+        $source_type = $adapter->getMetadata($source)['type'];
+        $dest_type = $adapter->getMetadata($dest)['type'];
+
+        // These three checks are done in order of cost to minimize Flysystem
+        // calls.
+
+        // Don't allow overwriting different types.
+        if ($source_type !== $dest_type) {
+            if ($dest_type === 'dir') {
+                throw new DirectoryExistsException();
+            }
+
+            throw new NotADirectoryException();
+        }
+
+        // Allow overwriting destination file.
+        if ($source_type === 'file') {
+            return $adapter->delete($dest);
+        }
+
+        // Allow overwriting destination directory if not empty.
+        $contents = $this->getFilesystem()->listContents($dest);
+        if ( ! empty($contents)) {
+            throw new DirectoryNotEmptyException();
+        }
+
+        return $adapter->deleteDir($dest);
+    }
+
 }

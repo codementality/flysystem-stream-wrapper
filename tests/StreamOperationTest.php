@@ -209,11 +209,31 @@ class StreamOperationTest extends TestCase {
         $this->assertWarning('mkdir(): No such file or directory');
     }
 
+    public function testRmdir()
+    {
+        $this->assertTrue(mkdir('flysystem://one', 0777));
+        $this->assertTrue(rmdir('flysystem://one'));
+    }
+
     public function testRmdirFail()
     {
         $this->assertTrue(mkdir('flysystem://one/two', 0777, STREAM_MKDIR_RECURSIVE));
         $this->assertFalse(@rmdir('flysystem://one'));
         $this->assertWarning('rmdir(): Directory not empty');
+    }
+
+    public function testForcedRenameFile()
+    {
+        $this->assertTrue(touch('flysystem://source'));
+        $this->assertTrue(rename('flysystem://source', 'flysystem://dest'));
+
+    }
+    public function testForceRenameDirectory()
+    {
+        $this->assertTrue(mkdir('flysystem://source', 0777));
+        $this->assertTrue(mkdir('flysystem://dest', 0777));
+        $this->assertTrue(touch('flysystem://source/file.txt'));
+        $this->assertTrue(rename('flysystem://source', 'flysystem://dest'));
     }
 
     public function testRemoveRoot()
