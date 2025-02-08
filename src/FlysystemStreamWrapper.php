@@ -8,7 +8,6 @@ use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use Codementality\FlysystemStreamWrapper\Flysystem\Exception\TriggerErrorException;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\ForcedRename;
-use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Mkdir;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Rmdir;
 use Codementality\FlysystemStreamWrapper\Flysystem\Plugin\Stat;
 
@@ -231,7 +230,6 @@ class FlysystemStreamWrapper
     protected static function registerPlugins($protocol, FilesystemInterface $filesystem)
     {
         $filesystem->addPlugin(new ForcedRename());
-        $filesystem->addPlugin(new Mkdir());
         $filesystem->addPlugin(new Rmdir());
 
         $stat = new Stat(
@@ -328,8 +326,20 @@ class FlysystemStreamWrapper
     public function mkdir($uri, $mode, $options)
     {
         $this->uri = $uri;
-
-        return $this->invoke($this->getFilesystem(), 'mkdir', [$this->getTarget(), $mode, $options]);
+        try {
+            $dirname = $this->normalizePath($this->getTarget());
+            $adapter = $this->getFilesystem()->getAdapter();
+            if (($options & STREAM_MKDIR_RECURSIVE) || strpos($dirname, '/') === false) {
+                return (bool) $adapter->createDir($dirname, $this->defaultConfig());
+            }
+            if ( ! $adapter->has(dirname($dirname))) {
+                throw new FileNotFoundException($dirname);
+            }
+            return (bool) $adapter->createDir($dirname, $this->defaultConfig());
+        } catch (\Exception $e) {
+            $this->triggerError(__FUNCTION__, $e);
+        }
+        return false;
     }
 
     /**
