@@ -13,7 +13,8 @@
          >
     <testsuites>
         <testsuite name="Flysystem stream wrapper tests">
-            <!--<directory suffix=".php">./tests/</directory>-->
+            <directory suffix=".php">./tests/</directory>
+            <!--
             <file>tests/UidTest.php</file>
             <file>tests/FlysystemStreamWrapperTest.php</file>
             <file>tests/StreamOperationTest.php</file>
@@ -21,6 +22,7 @@
             <file>tests/Flysystem/Exception/TriggerErrorExceptionTest.php</file>
             <file>tests/Flysystem/Plugin/StatTest.php</file>
             <file>tests/StreamUtilTest.php</file>
+            -->
         </testsuite>
     </testsuites>
 </phpunit>
