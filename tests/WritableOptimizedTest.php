@@ -1,7 +1,8 @@
 <?php
 
-use League\Flysystem\Adapter\Local;
+use League\Flysystem\Local\LocalFilesystemAdapter as Local;
 use League\Flysystem\Filesystem;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 
 class WritableOptimizedTest extends StreamOperationTest
@@ -11,10 +12,10 @@ class WritableOptimizedTest extends StreamOperationTest
         $this->testDir = __DIR__ . '/testdir';
 
         $filesystem = new Filesystem(new Local(__DIR__));
-        $filesystem->deleteDir('testdir');
-        $filesystem->createDir('testdir');
+        $filesystem->deleteDirectory('testdir');
+        $filesystem->createDirectory('testdir');
 
-        $writable = new WritableLocal($this->testDir, \LOCK_EX, 0002, $this->perms);
+        $writable = new Local($this->testDir, PortableVisibilityConverter::fromArray($this->perms), \LOCK_EX, 0002);
         $this->filesystem = new Filesystem($writable);
         FlysystemStreamWrapper::register('flysystem', $this->filesystem);
     }
@@ -36,5 +37,9 @@ class WritableLocal extends Local
         fseek($stream, 0);
 
         return compact('stream', 'path');
+    }
+
+    private function applyPathPrefix($path) {
+        return rtrim($prefix, '\\/') . '/' . ltrim($path, '\\/');
     }
 }

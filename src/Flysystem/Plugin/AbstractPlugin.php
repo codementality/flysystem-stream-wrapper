@@ -3,9 +3,9 @@
 namespace Codementality\FlysystemStreamWrapper\Flysystem\Plugin;
 
 use League\Flysystem\Config;
-use League\Flysystem\Plugin\AbstractPlugin as FlysystemPlugin;
+//use League\Flysystem\Plugin\AbstractPlugin as FlysystemPlugin;
 
-abstract class AbstractPlugin extends FlysystemPlugin
+abstract class AbstractPlugin
 {
     /**
      * @var \League\Flysystem\Filesystem
@@ -18,5 +18,15 @@ abstract class AbstractPlugin extends FlysystemPlugin
         $config->setFallback($this->filesystem->getConfig());
 
         return $config;
+    }
+
+    /**
+     * Set the Filesystem object.
+     *
+     * @param \League\Flysystem\FilesystemOperator $filesystem
+     */
+    public function setFilesystem(FilesystemOperator $filesystem)
+    {
+        $this->filesystem = $filesystem;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Adapter\NullAdapter;
+use League\Flysystem\Local\LocalFilesystemAdapter as Local;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter as NullAdapter;
 use League\Flysystem\Filesystem;
 use Codementality\FlysystemStreamWrapper\FlysystemStreamWrapper;
 use PHPUnit\Framework\TestCase;
@@ -78,7 +78,7 @@ class NoVisibilityLocal extends Local
         throw new \LogicException();
     }
 
-    public function setVisibility($path, $visibility)
+    public function setVisibility($path, $visibility): void
     {
         throw new \LogicException();
     }
