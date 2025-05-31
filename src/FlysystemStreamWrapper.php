@@ -550,7 +550,26 @@ class FlysystemStreamWrapper
      */
     public function stream_seek($offset, $whence = SEEK_SET)
     {
-        return fseek($this->handle, $offset, $whence) === 0;
+        try {
+            return fseek($this->handle, $offset, $whence) === 0;
+        // if the stream is not seekable
+        // try buffering into a temporary file
+        } catch (\RuntimeException $e) {
+            $tmp = tmpfile();
+            if (!$tmp) {
+                $this->triggerError('stream_seek', $e);
+                return false;
+            }
+            if (stream_copy_to_stream($this->handle, $tmp) === false) {
+                $this->triggerError('stream_seek', $e);
+                return false;
+            }
+            rewind($tmp);
+            fclose($this->handle);
+            // Override handle so the tmp file will get cleaned up on stream_close.
+            $this->handle = $tmp;
+            return fseek($this->handle, $offset, $whence) == 0;
+        }
     }
 
     /**
