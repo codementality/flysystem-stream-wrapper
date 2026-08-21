@@ -123,11 +123,18 @@ class Stat extends AbstractPlugin
         $keys = array_diff($this->required, array_keys($metadata), $ignore);
 
         foreach ($keys as $key) {
+            // Some S3-compatible stores (Cloudflare R2) implement no object
+            // ACLs, so getVisibility() fails with NotImplemented. Visibility
+            // only feeds the emulated permission bits and handle() supplies a
+            // default, so never ask the adapter for it.
+            if ($key === 'visibility') {
+                continue;
+            }
             $method = 'get' . ucfirst($key);
 
             try {
                 $metadata[$key] = $this->filesystem->$method($path);
-            } catch (\LogicException $e) {
+            } catch (\Exception $e) {
                 // Some adapters don't support certain metadata. For instance,
                 // the Dropbox adapter throws exceptions when calling
                 // getVisibility(). Remove the required key so we don't keep
