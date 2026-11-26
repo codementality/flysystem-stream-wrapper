@@ -164,7 +164,7 @@ class FlysystemStreamWrapper
      *
      * @return bool True if the protocol was registered, false if not.
      */
-    public static function register($protocol, FilesystemInterface $filesystem, array $configuration = null, $flags = 0)
+    public static function register($protocol, FilesystemInterface $filesystem, ?array $configuration = null, $flags = 0)
     {
         if (static::streamWrapperExists($protocol)) {
             return false;
